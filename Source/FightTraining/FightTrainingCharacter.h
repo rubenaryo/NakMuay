@@ -8,6 +8,8 @@
 
 #define RY_TOUCHCONTROLS 0
 
+class UCombatComponent;
+
 UCLASS(config=Game)
 class AFightTrainingCharacter : public ACharacter
 {
@@ -20,6 +22,11 @@ class AFightTrainingCharacter : public ACharacter
     /** Follow camera */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
     class UCameraComponent* FollowCamera;
+
+    /** Core Combat Component **/
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+    class UCombatComponent* CombatComponent;
+
 public:
     AFightTrainingCharacter();
 
@@ -47,6 +54,10 @@ protected:
      */
     void LookUpAtRate(float Rate);
 
+    // These should probably be somewhere other than the main character file
+    void PunchAction();
+    void ResetCombat();
+
 #if RY_TOUCHCONTROLS
     /** Handler for when a touch input begins. */
     void TouchStarted(ETouchIndex::Type FingerIndex, FVector Location);
@@ -65,5 +76,7 @@ public:
     FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
     /** Returns FollowCamera subobject **/
     FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+    /** Returns CombatComponent subobject **/
+    FORCEINLINE class UCombatComponent* GetCombatComponent() const { return CombatComponent; }
 };
 

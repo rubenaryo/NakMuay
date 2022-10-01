@@ -7,6 +7,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "FightTraining/CombatComponent.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AFightTrainingCharacter
@@ -47,6 +48,7 @@ AFightTrainingCharacter::AFightTrainingCharacter()
     FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
     FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
+    CombatComponent = CreateDefaultSubobject<UCombatComponent>(TEXT("CombatComponent"));
     // Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
     // are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 }
@@ -61,6 +63,9 @@ void AFightTrainingCharacter::SetupPlayerInputComponent(class UInputComponent* P
     PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
     PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
+    PlayerInputComponent->BindAction("Punch", IE_Pressed, this, &AFightTrainingCharacter::PunchAction);
+    PlayerInputComponent->BindAction("Punch", IE_Released, this, &AFightTrainingCharacter::ResetCombat);
+    
     PlayerInputComponent->BindAxis("Move Forward / Backward", this, &AFightTrainingCharacter::MoveForward);
     PlayerInputComponent->BindAxis("Move Right / Left", this, &AFightTrainingCharacter::MoveRight);
 
@@ -130,4 +135,14 @@ void AFightTrainingCharacter::MoveRight(float Value)
         // add movement in that direction
         AddMovementInput(Direction, Value);
     }
+}
+
+void AFightTrainingCharacter::PunchAction()
+{
+    CombatComponent->Punch();
+}
+
+void AFightTrainingCharacter::ResetCombat()
+{
+    CombatComponent->ResetCombatState();
 }
