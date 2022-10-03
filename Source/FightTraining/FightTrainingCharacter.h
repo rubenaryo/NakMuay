@@ -10,6 +10,7 @@
 
 class UCameraComponent;
 class UCombatComponent;
+class USphereComponent;
 class USpringArmComponent;
 
 UCLASS(config=Game)
@@ -26,10 +27,12 @@ class AFightTrainingCharacter : public ACharacter
     UCameraComponent* FollowCamera;
 
     /** Core Combat Component **/
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
     UCombatComponent* CombatComponent;
-
     
+    /** Core Combat Component **/
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
+    USphereComponent* LeftFistCollider;
 
 public:
     AFightTrainingCharacter();
@@ -39,6 +42,8 @@ public:
     float TurnRateGamepad;
 
 protected:
+
+    void BeginPlay() override;
 
     /** Called for forwards/backward input */
     void MoveForward(float Value);
