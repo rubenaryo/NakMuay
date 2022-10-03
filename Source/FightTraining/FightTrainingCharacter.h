@@ -8,7 +8,9 @@
 
 #define RY_TOUCHCONTROLS 0
 
+class UCameraComponent;
 class UCombatComponent;
+class USpringArmComponent;
 
 UCLASS(config=Game)
 class AFightTrainingCharacter : public ACharacter
@@ -17,15 +19,17 @@ class AFightTrainingCharacter : public ACharacter
 
     /** Camera boom positioning the camera behind the character */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-    class USpringArmComponent* CameraBoom;
+    USpringArmComponent* CameraBoom;
 
     /** Follow camera */
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-    class UCameraComponent* FollowCamera;
+    UCameraComponent* FollowCamera;
 
     /** Core Combat Component **/
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-    class UCombatComponent* CombatComponent;
+    UCombatComponent* CombatComponent;
+
+    
 
 public:
     AFightTrainingCharacter();
@@ -73,10 +77,10 @@ protected:
 
 public:
     /** Returns CameraBoom subobject **/
-    FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+    FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
     /** Returns FollowCamera subobject **/
-    FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+    FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
     /** Returns CombatComponent subobject **/
-    FORCEINLINE class UCombatComponent* GetCombatComponent() const { return CombatComponent; }
+    FORCEINLINE UCombatComponent* GetCombatComponent() const { return CombatComponent; }
 };
 
