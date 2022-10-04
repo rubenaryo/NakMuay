@@ -1,7 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "FightTrainingGameMode.h"
-#include "FightTrainingCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
 AFightTrainingGameMode::AFightTrainingGameMode()
