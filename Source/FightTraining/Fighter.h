@@ -5,23 +5,62 @@
 #include "Fighter.generated.h"
 
 class UCombatComponent;
-class USphereComponent;
+class UShapeComponent;
+
+/** 1:1 with ColliderSocketBindings **/
+enum ECombatColliderArea
+{
+	CCA_LeftHand,
+	CCA_RightHand,
+	CCA_LeftKnee,
+	CCA_RightKnee,
+	CCA_LeftShin,
+	CCA_RightShin,
+	CCA_LeftFoot,
+	CCA_RightFoot,
+	CCA_LeftElbow,
+	CCA_RightElbow,
+	
+	CCA_Count
+};
+
+inline FName CombatColliderSocketBindings[CCA_Count] =
+{
+	FName(TEXT("hand_l_Socket")),	// CCA_LeftHand
+	FName(TEXT("hand_r_Socket")),	// CCA_RightHand
+	FName(TEXT("knee_l_Socket")),	// CCA_LeftKnee
+	FName(TEXT("knee_r_Socket")),	// CCA_RightKnee
+	FName(TEXT("shin_l_Socket")),	// CCA_LeftShin
+	FName(TEXT("shin_r_Socket")),	// CCA_RightShin
+	FName(TEXT("foot_l_Socket")),	// CCA_LeftFoot
+	FName(TEXT("foot_r_Socket")),	// CCA_RightFoot
+	FName(TEXT("elbow_l_Socket")),	// CCA_LeftElbow
+	FName(TEXT("elbow_r_Socket"))	// CCA_RightElbow
+};
+
+// Keep this 64bit-aligned to minimize waste from padding
+// TODO
+struct CombatColliderState
+{
+	CombatColliderState() : bEnabled(true) {};
+	bool bEnabled;
+};
 
 /**
  * Fighters are characters that have combat specific behavior.
  * NOTE: This will probably not inherit from ACharacter in the future, once that class is discarded
  * in favor of something more lightweight.
- */
+**/
 UCLASS(meta = (ShortTooltip = "A fighter is a type of Character that holds combat specific behavior"))
 class FIGHTTRAINING_API AFighter : public ACharacter
 {
 	GENERATED_BODY()
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
 	UCombatComponent* CombatComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
-	USphereComponent* LeftFistCollider;
+	UPROPERTY(EditAnywhere, EditFixedSize, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	TArray<UShapeComponent*> CombatColliderPrimitives;
 
 public:
 	// Sets default values for this character's properties
@@ -36,12 +75,16 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	
+	virtual void PreRegisterAllComponents() override;
+
+	virtual void PostInitializeComponents() override;
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
 };

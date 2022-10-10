@@ -1,7 +1,7 @@
 #include "Fighter.h"
 
 #include "FightTraining/CombatComponent.h"
-#include "Components/SphereComponent.h" // For colliders
+#include "Components/ShapeComponent.h"
 
 // Sets default values
 AFighter::AFighter()
@@ -10,25 +10,49 @@ AFighter::AFighter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	CombatComponent = CreateDefaultSubobject<UCombatComponent>(TEXT("CombatComponent"));
-
-	LeftFistCollider = CreateDefaultSubobject<USphereComponent>(TEXT("LeftFistCollider"));
-	LeftFistCollider->SetupAttachment(GetMesh());
+	
+	CombatColliderPrimitives.Init(dynamic_cast<UShapeComponent*>(UShapeComponent::StaticClass()->ClassDefaultObject), CCA_Count);
+	for (uint32_t i = 0; i != ECombatColliderArea::CCA_Count; ++i)
+	{
+		if (CombatColliderPrimitives[i])
+			CombatColliderPrimitives[i]->SetupAttachment(GetMesh(), CombatColliderSocketBindings[i]);
+	}
 }
 
-static const FName LeftFistSocketName = FName(TEXT("hand_l_socket"));
+void AFighter::PreRegisterAllComponents()
+{
+	Super::PreRegisterAllComponents();
+}
+
+void AFighter::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+
+	static const FAttachmentTransformRules skAttachmentRules(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, EAttachmentRule::KeepWorld, false);
+	
+	for (uint32_t i = 0; i != ECombatColliderArea::CCA_Count; ++i)
+	{
+		UShapeComponent* pPrim = CombatColliderPrimitives[i];
+
+		if (pPrim)
+		{
+			if (!pPrim->AttachToComponent(GetMesh(), skAttachmentRules, CombatColliderSocketBindings[i]))
+			{
+				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, CombatColliderSocketBindings[i].GetPlainNameString());			
+			}
+			
+			pPrim->SetHiddenInGame(false);
+			pPrim->SetVisibility(true);
+		}
+	}
+}
 
 // Called when the game starts or when spawned
 void AFighter::BeginPlay()
 {
 	Super::BeginPlay();
-
-	static const FAttachmentTransformRules skAttachmentRules(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, EAttachmentRule::KeepWorld, false);
-
-	if (!GetMesh()->DoesSocketExist(LeftFistSocketName) || !LeftFistCollider->AttachToComponent(GetMesh(), skAttachmentRules, LeftFistSocketName) && GEngine)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, LeftFistSocketName.GetPlainNameString());
-	}
 }
+
 
 // Called every frame
 void AFighter::Tick(float DeltaTime)
@@ -44,18 +68,34 @@ void AFighter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void AFighter::PunchAction()
 {
-	LeftFistCollider->ShapeColor = FColor::Green;
-	LeftFistCollider->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-	LeftFistCollider->SetGenerateOverlapEvents(true);
-	LeftFistCollider->MarkRenderStateDirty();
+	for (uint32_t i = 0; i != ECombatColliderArea::CCA_Count; ++i)
+	{
+		UShapeComponent* pColliderPrimitive = CombatColliderPrimitives[i];
+
+		if (pColliderPrimitive)
+		{
+			pColliderPrimitive->ShapeColor = FColor::Green;
+			pColliderPrimitive->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+			pColliderPrimitive->SetGenerateOverlapEvents(true);
+			pColliderPrimitive->MarkRenderStateDirty();
+		}
+	}
 	CombatComponent->Punch();
 }
 
 void AFighter::ResetCombat()
 {
-	LeftFistCollider->ShapeColor = FColor::Red;
-	LeftFistCollider->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	LeftFistCollider->SetGenerateOverlapEvents(false);
-	LeftFistCollider->MarkRenderStateDirty();
+	for (uint32_t i = 0; i != ECombatColliderArea::CCA_Count; ++i)
+	{
+		UShapeComponent* pColliderPrimitive = CombatColliderPrimitives[i];
+
+		if (pColliderPrimitive)
+		{
+			pColliderPrimitive->ShapeColor = FColor::Red;
+			pColliderPrimitive->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			pColliderPrimitive->SetGenerateOverlapEvents(false);
+			pColliderPrimitive->MarkRenderStateDirty();
+		}
+	}
 	CombatComponent->ResetCombatState();
 }
