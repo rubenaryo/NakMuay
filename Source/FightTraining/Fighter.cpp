@@ -11,12 +11,12 @@ AFighter::AFighter()
 
 	CombatComponent = CreateDefaultSubobject<UCombatComponent>(TEXT("CombatComponent"));
 	
-	CombatColliderPrimitives.Init(dynamic_cast<UShapeComponent*>(UShapeComponent::StaticClass()->ClassDefaultObject), CCA_Count);
-	for (uint32_t i = 0; i != ECombatColliderArea::CCA_Count; ++i)
-	{
-		if (CombatColliderPrimitives[i])
-			CombatColliderPrimitives[i]->SetupAttachment(GetMesh(), CombatColliderSocketBindings[i]);
-	}
+	CombatColliderPrimitives.Init(nullptr, CCA_Count);
+	//for (uint32_t i = 0; i != ECombatColliderArea::CCA_Count; ++i)
+	//{
+	//	//if (CombatColliderPrimitives[i])
+	//		CombatColliderPrimitives[i]->SetupAttachment(GetMesh(), CombatColliderSocketBindings[i]);
+	//}
 }
 
 void AFighter::PreRegisterAllComponents()
@@ -64,23 +64,6 @@ void AFighter::Tick(float DeltaTime)
 void AFighter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-}
-
-void AFighter::PunchAction()
-{
-	for (uint32_t i = 0; i != ECombatColliderArea::CCA_Count; ++i)
-	{
-		UShapeComponent* pColliderPrimitive = CombatColliderPrimitives[i];
-
-		if (pColliderPrimitive)
-		{
-			pColliderPrimitive->ShapeColor = FColor::Green;
-			pColliderPrimitive->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-			pColliderPrimitive->SetGenerateOverlapEvents(true);
-			pColliderPrimitive->MarkRenderStateDirty();
-		}
-	}
-	CombatComponent->Punch();
 }
 
 void AFighter::ResetCombat()

@@ -3,15 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CombatAction.h"
 #include "Components/ActorComponent.h"
 #include "CombatComponent.generated.h"
 
-UENUM(BlueprintType, meta = (ScriptName = "CombatActionState"))
-enum ECombatActionState
+UENUM(BlueprintType, meta = (ScriptName = "MovementActionState"))
+enum EMovementActionState
 {
-    CA_NONE     UMETA(DisplayName="None"),
-    CA_PUNCH    UMETA(DisplayName="Punch"),
-    CA_COUNT,
+    MA_NONE         UMETA(DisplayName="None"),
+    MA_STRAFELEFT   UMETA(DisplayName="Strafe Left"),
+    MA_STRAFERIGHT  UMETA(DisplayName="Strafe Right"),
+    MA_COUNT,
 };
 
 UCLASS(Blueprintable, ClassGroup = Combat, meta=(BlueprintSpawnableComponent))
@@ -28,16 +30,10 @@ public:
     virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
     UFUNCTION(BlueprintCallable, Category = "Combat|Components|CombatComponent")
-    bool IsPunching() const;
+    bool SetCurrentCombatActionType(ECombatActionType combatAction);
 
     UFUNCTION(BlueprintCallable, Category = "Combat|Components|CombatComponent")
-    void Punch();
-
-    UFUNCTION(BlueprintCallable, Category = "Combat|Components|CombatComponent")
-    bool SetCurrentCombatAction(ECombatActionState combatAction);
-
-    UFUNCTION(BlueprintCallable, Category = "Combat|Components|CombatComponent")
-    ECombatActionState GetCurrentCombatAction() const;
+    ECombatActionType GetCurrentCombatActionType() const;
 
     void ResetCombatState();
 
@@ -45,7 +41,6 @@ protected:
     // Called when the game starts
     virtual void BeginPlay() override;
 
-
 protected:
-    ECombatActionState CurrentCombatAction;
+    ECombatActionType CurrentCombatActionType;
 };

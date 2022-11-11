@@ -59,15 +59,12 @@ class FIGHTTRAINING_API AFighter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
 	UCombatComponent* CombatComponent;
 
-	UPROPERTY(EditAnywhere, EditFixedSize, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditDefaultsOnly, EditFixedSize, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
 	TArray<UShapeComponent*> CombatColliderPrimitives;
 
 public:
 	// Sets default values for this character's properties
 	AFighter();
-
-	UFUNCTION(BlueprintCallable, Category = "Combat")
-	void PunchAction();
 
 	UFUNCTION(BlueprintCallable, Category = "Combat")
 	void ResetCombat();
@@ -87,4 +84,6 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION(BlueprintGetter, Category = "Combat")
+	UCombatComponent* GetCombatComponent() const { return CombatComponent; }
 };

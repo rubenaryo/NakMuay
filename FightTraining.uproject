@@ -15,16 +15,338 @@
 	],
 	"Plugins": [
 		{
-			"Name": "ModelingToolsEditorMode",
-			"Enabled": true,
-			"TargetAllowList": [
-				"Editor"
-			]
-		},
-		{
 			"Name": "MixamoAnimationRetargeting",
 			"Enabled": true,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/c684998124da4e2583b314dc95403a80"
+		},
+		{
+			"Name": "EnhancedInput",
+			"Enabled": true
+		},
+		{
+			"Name": "AndroidDeviceProfileSelector",
+			"Enabled": false
+		},
+		{
+			"Name": "AndroidMedia",
+			"Enabled": false
+		},
+		{
+			"Name": "AndroidMoviePlayer",
+			"Enabled": false
+		},
+		{
+			"Name": "AndroidPermission",
+			"Enabled": false
+		},
+		{
+			"Name": "AndroidFileServer",
+			"Enabled": false
+		},
+		{
+			"Name": "AppleImageUtils",
+			"Enabled": false
+		},
+		{
+			"Name": "AppleMoviePlayer",
+			"Enabled": false
+		},
+		{
+			"Name": "Synthesis",
+			"Enabled": false
+		},
+		{
+			"Name": "AutomationUtils",
+			"Enabled": false
+		},
+		{
+			"Name": "AvfMedia",
+			"Enabled": false
+		},
+		{
+			"Name": "BackChannel",
+			"Enabled": false
+		},
+		{
+			"Name": "BlendSpaceMotionAnalysis",
+			"Enabled": false
+		},
+		{
+			"Name": "Bridge",
+			"Enabled": false,
+			"SupportedTargetPlatforms": [
+				"Win64",
+				"Mac",
+				"Linux"
+			]
+		},
+		{
+			"Name": "CableComponent",
+			"Enabled": false
+		},
+		{
+			"Name": "CameraShakePreviewer",
+			"Enabled": false
+		},
+		{
+			"Name": "ChaosClothEditor",
+			"Enabled": false
+		},
+		{
+			"Name": "ChaosCloth",
+			"Enabled": false
+		},
+		{
+			"Name": "ChaosNiagara",
+			"Enabled": false
+		},
+		{
+			"Name": "ChaosEditor",
+			"Enabled": false
+		},
+		{
+			"Name": "ChaosSolverPlugin",
+			"Enabled": false
+		},
+		{
+			"Name": "CLionSourceCodeAccess",
+			"Enabled": false
+		},
+		{
+			"Name": "CodeLiteSourceCodeAccess",
+			"Enabled": false
+		},
+		{
+			"Name": "CryptoKeys",
+			"Enabled": false
+		},
+		{
+			"Name": "DataValidation",
+			"Enabled": false
+		},
+		{
+			"Name": "DatasmithContent",
+			"Enabled": false
+		},
+		{
+			"Name": "EnvironmentQueryEditor",
+			"Enabled": false
+		},
+		{
+			"Name": "ExampleDeviceProfileSelector",
+			"Enabled": false
+		},
+		{
+			"Name": "FacialAnimation",
+			"Enabled": false
+		},
+		{
+			"Name": "FastBuildController",
+			"Enabled": false
+		},
+		{
+			"Name": "GooglePAD",
+			"Enabled": false
+		},
+		{
+			"Name": "IOSDeviceProfileSelector",
+			"Enabled": false
+		},
+		{
+			"Name": "KDevelopSourceCodeAccess",
+			"Enabled": false
+		},
+		{
+			"Name": "NullSourceCodeAccess",
+			"Enabled": false
+		},
+		{
+			"Name": "LinuxDeviceProfileSelector",
+			"Enabled": false
+		},
+		{
+			"Name": "MacGraphicsSwitching",
+			"Enabled": false
+		},
+		{
+			"Name": "MaterialAnalyzer",
+			"Enabled": false
+		},
+		{
+			"Name": "MatineeToLevelSequence",
+			"Enabled": false
+		},
+		{
+			"Name": "MediaCompositing",
+			"Enabled": false
+		},
+		{
+			"Name": "MediaPlayerEditor",
+			"Enabled": false
+		},
+		{
+			"Name": "MeshPainting",
+			"Enabled": false
+		},
+		{
+			"Name": "LocationServicesBPLibrary",
+			"Enabled": false
+		},
+		{
+			"Name": "MobilePatchingUtils",
+			"Enabled": false
+		},
+		{
+			"Name": "WebMMoviePlayer",
+			"Enabled": false
+		},
+		{
+			"Name": "OnlineSubsystemGooglePlay",
+			"Enabled": false,
+			"SupportedTargetPlatforms": [
+				"Android"
+			]
+		},
+		{
+			"Name": "OnlineSubsystemIOS",
+			"Enabled": false,
+			"SupportedTargetPlatforms": [
+				"IOS",
+				"TVOS"
+			]
+		},
+		{
+			"Name": "OnlineSubsystemNull",
+			"Enabled": false
+		},
+		{
+			"Name": "OnlineSubsystemUtils",
+			"Enabled": false
+		},
+		{
+			"Name": "OnlineSubsystem",
+			"Enabled": false
+		},
+		{
+			"Name": "OnlineBase",
+			"Enabled": false
+		},
+		{
+			"Name": "OodleNetwork",
+			"Enabled": false
+		},
+		{
+			"Name": "TextureFormatOodle",
+			"Enabled": false
+		},
+		{
+			"Name": "OpenImageDenoise",
+			"Enabled": false
+		},
+		{
+			"Name": "Paper2D",
+			"Enabled": false
+		},
+		{
+			"Name": "PerforceSourceControl",
+			"Enabled": false
+		},
+		{
+			"Name": "PixWinPlugin",
+			"Enabled": false,
+			"SupportedTargetPlatforms": [
+				"Win64"
+			]
+		},
+		{
+			"Name": "PlasticSourceControl",
+			"Enabled": false
+		},
+		{
+			"Name": "PlatformCrypto",
+			"Enabled": false
+		},
+		{
+			"Name": "ResonanceAudio",
+			"Enabled": false
+		},
+		{
+			"Name": "ProceduralMeshComponent",
+			"Enabled": false
+		},
+		{
+			"Name": "SoundFields",
+			"Enabled": false
+		},
+		{
+			"Name": "SpeedTreeImporter",
+			"Enabled": false
+		},
+		{
+			"Name": "SubversionSourceControl",
+			"Enabled": false
+		},
+		{
+			"Name": "TcpMessaging",
+			"Enabled": false
+		},
+		{
+			"Name": "TraceDataFilters",
+			"Enabled": false
+		},
+		{
+			"Name": "UdpMessaging",
+			"Enabled": false
+		},
+		{
+			"Name": "UObjectPlugin",
+			"Enabled": false
+		},
+		{
+			"Name": "VariantManagerContent",
+			"Enabled": false
+		},
+		{
+			"Name": "VisualStudioCodeSourceCodeAccess",
+			"Enabled": false
+		},
+		{
+			"Name": "VisualStudioSourceCodeAccess",
+			"Enabled": false
+		},
+		{
+			"Name": "WindowsDeviceProfileSelector",
+			"Enabled": false
+		},
+		{
+			"Name": "WindowsMoviePlayer",
+			"Enabled": false
+		},
+		{
+			"Name": "MobileLauncherProfileWizard",
+			"Enabled": false
+		},
+		{
+			"Name": "WmfMedia",
+			"Enabled": false
+		},
+		{
+			"Name": "WorldPartitionHLODUtilities",
+			"Enabled": false
+		},
+		{
+			"Name": "XCodeSourceCodeAccess",
+			"Enabled": false,
+			"SupportedTargetPlatforms": [
+				"Mac"
+			]
+		},
+		{
+			"Name": "XGEController",
+			"Enabled": false
 		}
+	],
+	"TargetPlatforms": [
+		"Windows"
 	]
 }
