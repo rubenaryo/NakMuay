@@ -27,12 +27,18 @@ public:
 		return FrontComboMap.Find(combatAction);
 	}
 
+	UFUNCTION(BlueprintCallable)
+	const UAnimationAsset* GetAnimMontageForCombatActionType(ECombatActionType type) const;
+
 	/**
 	 * All combos available in this game mode
 	 */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TArray<const UComboSpec*> AvailableCombos;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TMap<ECombatActionType, UAnimationAsset*> CombatActionMontageMap;
+	
 protected:
 	/**
 	 * A mapping of all combos that end with the key CombatActionType.

@@ -32,3 +32,9 @@ void AFightTrainingGameMode::InitGame(const FString& MapName, const FString& Opt
 AFightTrainingGameMode::AFightTrainingGameMode()
 {
 }
+
+const UAnimationAsset* AFightTrainingGameMode::GetAnimMontageForCombatActionType(ECombatActionType type) const
+{
+	const UAnimationAsset* const* itFind = CombatActionMontageMap.Find(type);
+	return itFind ? *itFind : nullptr;
+}

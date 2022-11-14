@@ -15,6 +15,14 @@ void UCombatComponent::BeginPlay()
     Super::BeginPlay();
 }
 
+bool UCombatComponent::GetNextCombatActionInQueue(ECombatActionType& CombatActionType)
+{
+    if (CombatActionQueue.IsEmpty())
+        return false;
+
+    return CombatActionQueue.Dequeue(CombatActionType);
+}
+
 // Called every frame
 void UCombatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -36,4 +44,14 @@ void UCombatComponent::ResetCombatState()
 {
     // Currently, just resets to none.
     SetCurrentCombatActionType(ECombatActionType::None);
+}
+
+void UCombatComponent::QueueCombatAction(ECombatActionType actionIn)
+{
+    CombatActionQueue.Enqueue(actionIn);
+}
+
+void UCombatComponent::SetSkeletalMeshComponent(USkeletalMeshComponent* skMeshComp)
+{
+    SkeletalMeshComponent = skMeshComp;
 }

@@ -35,12 +35,34 @@ public:
     UFUNCTION(BlueprintCallable, Category = "Combat|Components|CombatComponent")
     ECombatActionType GetCurrentCombatActionType() const;
 
+    UFUNCTION(BlueprintCallable, Category = "Combat|Components|CombatComponent")
     void ResetCombatState();
+
+    void QueueCombatAction(ECombatActionType actionIn);
+
+    UFUNCTION(BlueprintCallable, Category = "Combat|Components|CombatComponent")
+    void SetSkeletalMeshComponent(USkeletalMeshComponent* skMeshComp);
+
+    UFUNCTION(BlueprintCallable, Category = "Combat|Components|CombatComponent")
+    USkeletalMeshComponent* GetSkeletalMeshComponent() const { return SkeletalMeshComponent.Get(); }
 
 protected:
     // Called when the game starts
     virtual void BeginPlay() override;
 
+    UFUNCTION(BlueprintImplementableEvent)
+    void ConsumeCombatActionFromQueue() const;
+
+    /**
+     * Returns true if something was dequeued, false otherwise. 
+     */
+    UFUNCTION(BlueprintCallable)
+    bool GetNextCombatActionInQueue(ECombatActionType& CombatActionType);
+
 protected:
     ECombatActionType CurrentCombatActionType;
+    
+    TQueue<ECombatActionType> CombatActionQueue;
+    
+    TWeakObjectPtr<USkeletalMeshComponent> SkeletalMeshComponent;
 };

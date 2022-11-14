@@ -1,30 +1,25 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/PlayerController.h"
+#include "Components/ActorComponent.h"
 #include "CombatAction.h"
-#include "FighterController.generated.h"
-
-class UInputAction;
-struct FInputActionInstance;
+#include "FighterComponent.generated.h"
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class FIGHTTRAINING_API AFighterController : public APlayerController
+class FIGHTTRAINING_API UFighterComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
-	AFighterController();
+	UFighterComponent();
+	//UFighterComponent(const FObjectInitializer& ObjectInitializer);
 
 protected:
-	virtual void PostInitializeComponents() override;
 	virtual void BeginPlay() override;
-	virtual void TickActor( float DeltaTime, enum ELevelTick TickType, FActorTickFunction& ThisTickFunction ) override;
-
-	virtual void SetupInputComponent() override;
-
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	
 	UFUNCTION(BlueprintCallable)
-	void AddToInputBuffer(const UInputAction* CompletedInputAction, ECombatActionType type);
+	void AddToCombatActionBuffer(ECombatActionType type);
 
 private:
 
@@ -32,12 +27,11 @@ private:
 	bool TryToAppendCombo(const FCombatAction& newestAction);
 
 	// If valid, return true. If invalid, empty the buffer and return false
-	bool ValidateComboBuffer(const TDoubleLinkedList<FCombatAction>::TDoubleLinkedListNode& newlyConsumedAction);
+	bool ValidateComboBuffer(const TDoubleLinkedList<FCombatAction>::TDoubleLinkedListNode* newlyConsumedAction);
 	
 	// Head is the oldest action, Tail is the newest
 	TDoubleLinkedList<FCombatAction> CombatActionBuffer;
 
 	// All consumed actions go into this intermediate combo buffer, which is used to validate combo actions.
 	TDoubleLinkedList<FCombatAction> ComboBuffer;
-	bool bComboBufferDirty;
 };

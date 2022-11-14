@@ -3,13 +3,13 @@
 #include "FightTraining/CombatComponent.h"
 #include "Components/ShapeComponent.h"
 
-// Sets default values
 AFighter::AFighter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	CombatComponent = CreateDefaultSubobject<UCombatComponent>(TEXT("CombatComponent"));
+	//CombatComponent = CreateDefaultSubobject<UCombatComponent>(TEXT("CombatComponent"));
+	//CombatComponent->SetSkeletalMeshComponent(GetMesh());
 	
 	CombatColliderPrimitives.Init(nullptr, CCA_Count);
 	//for (uint32_t i = 0; i != ECombatColliderArea::CCA_Count; ++i)
@@ -45,6 +45,9 @@ void AFighter::PostInitializeComponents()
 			pPrim->SetVisibility(true);
 		}
 	}
+
+	if (CombatComponent)
+		CombatComponent->SetSkeletalMeshComponent(GetMesh());
 }
 
 // Called when the game starts or when spawned
@@ -52,7 +55,6 @@ void AFighter::BeginPlay()
 {
 	Super::BeginPlay();
 }
-
 
 // Called every frame
 void AFighter::Tick(float DeltaTime)
@@ -64,6 +66,21 @@ void AFighter::Tick(float DeltaTime)
 void AFighter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+}
+
+UCombatComponent* AFighter::GetCombatComponent() const
+{
+	return CombatComponent;
+}
+
+bool AFighter::ReadyForNextCombatAction() const
+{
+	return GetCombatComponent() && GetCombatComponent()->GetCurrentCombatActionType() == ECombatActionType::None;
+}
+
+void AFighter::MarkReadyForCombat()
+{
+	ResetCombat();
 }
 
 void AFighter::ResetCombat()
@@ -80,5 +97,7 @@ void AFighter::ResetCombat()
 			pColliderPrimitive->MarkRenderStateDirty();
 		}
 	}
-	CombatComponent->ResetCombatState();
+
+	if (CombatComponent)
+		CombatComponent->ResetCombatState();
 }
