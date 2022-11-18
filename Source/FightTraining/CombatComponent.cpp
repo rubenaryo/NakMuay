@@ -1,6 +1,5 @@
 #include "CombatComponent.h"
 
-// Sets default values for this component's properties
 UCombatComponent::UCombatComponent()
     : CurrentCombatActionType(ECombatActionType::None)
 {
@@ -9,7 +8,6 @@ UCombatComponent::UCombatComponent()
     PrimaryComponentTick.bCanEverTick = true;
 }
 
-// Called when the game starts
 void UCombatComponent::BeginPlay()
 {
     Super::BeginPlay();
@@ -23,7 +21,15 @@ bool UCombatComponent::GetNextCombatActionInQueue(ECombatActionType& CombatActio
     return CombatActionQueue.Dequeue(CombatActionType);
 }
 
-// Called every frame
+bool UCombatComponent::AbleToConsumeAction()
+{
+    const bool bBufferedActions = !CombatActionQueue.IsEmpty();
+    const bool bActionInProgress = CurrentCombatActionType != ECombatActionType::None;
+    const bool bMoving = false;
+
+    return bBufferedActions && !bActionInProgress && !bMoving;
+}
+
 void UCombatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
     Super::TickComponent(DeltaTime, TickType, ThisTickFunction);

@@ -70,26 +70,12 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
-	virtual void PreRegisterAllComponents() override;
-
 	virtual void PostInitializeComponents() override;
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
-
+	
 	UFUNCTION(BlueprintGetter, Category = "Combat")
 	UCombatComponent* GetCombatComponent() const;
-
-	UFUNCTION(BlueprintCallable, Category = "Combat")
-	void ResetCombat();
-
-	UFUNCTION(BlueprintCallable, Category = "Combat")
-	bool ReadyForNextCombatAction() const;
-
-	UFUNCTION(BlueprintCallable, Category = "Combat")
-	void MarkReadyForCombat();
 };

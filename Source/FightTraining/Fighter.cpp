@@ -7,9 +7,6 @@ AFighter::AFighter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
-	//CombatComponent = CreateDefaultSubobject<UCombatComponent>(TEXT("CombatComponent"));
-	//CombatComponent->SetSkeletalMeshComponent(GetMesh());
 	
 	CombatColliderPrimitives.Init(nullptr, CCA_Count);
 	//for (uint32_t i = 0; i != ECombatColliderArea::CCA_Count; ++i)
@@ -17,11 +14,6 @@ AFighter::AFighter()
 	//	//if (CombatColliderPrimitives[i])
 	//		CombatColliderPrimitives[i]->SetupAttachment(GetMesh(), CombatColliderSocketBindings[i]);
 	//}
-}
-
-void AFighter::PreRegisterAllComponents()
-{
-	Super::PreRegisterAllComponents();
 }
 
 void AFighter::PostInitializeComponents()
@@ -62,42 +54,7 @@ void AFighter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-// Called to bind functionality to input
-void AFighter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-}
-
 UCombatComponent* AFighter::GetCombatComponent() const
 {
 	return CombatComponent;
-}
-
-bool AFighter::ReadyForNextCombatAction() const
-{
-	return GetCombatComponent() && GetCombatComponent()->GetCurrentCombatActionType() == ECombatActionType::None;
-}
-
-void AFighter::MarkReadyForCombat()
-{
-	ResetCombat();
-}
-
-void AFighter::ResetCombat()
-{
-	for (uint32_t i = 0; i != ECombatColliderArea::CCA_Count; ++i)
-	{
-		UShapeComponent* pColliderPrimitive = CombatColliderPrimitives[i];
-
-		if (pColliderPrimitive)
-		{
-			pColliderPrimitive->ShapeColor = FColor::Red;
-			pColliderPrimitive->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-			pColliderPrimitive->SetGenerateOverlapEvents(false);
-			pColliderPrimitive->MarkRenderStateDirty();
-		}
-	}
-
-	if (CombatComponent)
-		CombatComponent->ResetCombatState();
 }

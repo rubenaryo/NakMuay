@@ -55,12 +55,10 @@ void UFighterComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 
 	// FighterControllers should only ever control Fighter characters
 	check(pFighter)
-	if (pFighter && pFighter->ReadyForNextCombatAction())
+	if (pFighter)
 	{
 		// TODO: It is not sufficient to set state on the character, this causes issues with repeat combat actions, like punch->punch, which is essentially a no-op
-		
 		const FCombatAction combatAction = CombatActionBuffer.GetHead()->GetValue();
-		//pFighter->GetCombatComponent()->SetCurrentCombatActionType(combatAction.Type);
 		pFighter->GetCombatComponent()->QueueCombatAction(combatAction.Type);
 
 		// TODO: Scan Combo Buffer, if this breaks all combo sequences it needs to be cleared before this node is added to it. Right?
@@ -70,17 +68,6 @@ void UFighterComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 		CombatActionBuffer.RemoveNode(pHeadNode, true);
 
 		ValidateComboBuffer(ComboBuffer.GetHead());
-	}
-
-	// TODO: This should be done per-combat action
-	static constexpr uint64_t FRAME_TOLERANCE = 60 * 2;
-	static uint64_t sFrameAccumulator = 0;
-
-	// Dequeue the oldest input after FRAME_TOLERANCE frames
-	if (sFrameAccumulator++ >= FRAME_TOLERANCE)
-	{
-		//InputActionBuffer.RemoveNode(InputActionBuffer.GetHead(), true);
-		sFrameAccumulator = 0;
 	}
 
 	PrintBufferFrontToBack(ComboBuffer, 1, FColor::Orange);

@@ -49,15 +49,15 @@ public:
 protected:
     // Called when the game starts
     virtual void BeginPlay() override;
-
-    UFUNCTION(BlueprintImplementableEvent)
-    void ConsumeCombatActionFromQueue() const;
-
+    
     /**
      * Returns true if something was dequeued, false otherwise. 
      */
     UFUNCTION(BlueprintCallable)
     bool GetNextCombatActionInQueue(ECombatActionType& CombatActionType);
+
+    UFUNCTION(BlueprintCallable)
+    bool AbleToConsumeAction();
 
 protected:
     ECombatActionType CurrentCombatActionType;
