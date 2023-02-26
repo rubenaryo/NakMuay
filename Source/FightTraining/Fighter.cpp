@@ -4,6 +4,8 @@
 #include "Components/DecalComponent.h"
 #include "Components/ShapeComponent.h"
 
+#include "GameFramework/WorldSettings.h"
+
 #include "EngineUtils.h"
 
 AFighter::AFighter()
@@ -59,7 +61,6 @@ bool AFighter::UpdateLockOnTarget()
 		UDecalComponent* pDecal = LockOnTarget->GetLockOnDecal();
 		if (pDecal)
 		{
-			pDecal->SetActive(bNewDecalState, true);
 			pDecal->SetVisibility(bNewDecalState, true);
 		}
 	};
@@ -78,7 +79,7 @@ bool AFighter::UpdateLockOnTarget()
 
 AFighter* AFighter::FindNearestFighter() const
 {
-	static const float MAX_RADIUS_UE = 20.0f * 100.0f;
+	static const float MAX_RADIUS_UE = 20.0f * (GetWorldSettings() ? GetWorldSettings()->WorldToMeters : 100.0f);
 	static const float MAX_RADIUS_UE_SQ = MAX_RADIUS_UE * MAX_RADIUS_UE;
 
 	AFighter* pClosestFighter = nullptr;
