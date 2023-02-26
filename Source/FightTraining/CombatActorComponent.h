@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "CombatAction.h"
 #include "Components/ActorComponent.h"
-#include "CombatComponent.generated.h"
+#include "CombatActorComponent.generated.h"
 
 UENUM(BlueprintType, meta = (ScriptName = "MovementActionState"))
 enum EMovementActionState
@@ -17,13 +17,13 @@ enum EMovementActionState
 };
 
 UCLASS(Blueprintable, ClassGroup = Combat, meta=(BlueprintSpawnableComponent))
-class FIGHTTRAINING_API UCombatComponent : public UActorComponent
+class FIGHTTRAINING_API UCombatActorComponent : public UActorComponent
 {
     GENERATED_BODY()
 
 public:	
     // Sets default values for this component's properties
-    UCombatComponent();
+    UCombatActorComponent();
 
 public:	
     // Called every frame

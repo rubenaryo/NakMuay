@@ -45,16 +45,9 @@ void UFighterComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 		PrintBufferFrontToBack(ComboBuffer, 1, FColor::Orange);
 		return;
 	}
-	
-	const AController* pController = Cast<AController>(GetOwner());
-	const AFighter* pFighter = nullptr;
-	if (pController)
-	{
-		pFighter = Cast<AFighter>(pController->GetCharacter());
-	}
 
-	// FighterControllers should only ever control Fighter characters
-	check(pFighter)
+	// TODO: Maybe make this a member?
+	const AFighter* pFighter = GetPossessedFighter();
 	if (pFighter)
 	{
 		// TODO: It is not sufficient to set state on the character, this causes issues with repeat combat actions, like punch->punch, which is essentially a no-op
@@ -198,5 +191,11 @@ bool UFighterComponent::ValidateComboBuffer(const TDoubleLinkedList<FCombatActio
 	}
 
 	return true;
+}
+
+const AFighter* UFighterComponent::GetPossessedFighter() const
+{
+	const AController* pController = Cast<AController>(GetOwner());
+	return pController ? Cast<AFighter>(pController->GetCharacter()) : nullptr;
 }
 

@@ -5,6 +5,8 @@
 #include "CombatAction.h"
 #include "FighterComponent.generated.h"
 
+class AFighter;
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class FIGHTTRAINING_API UFighterComponent : public UActorComponent
 {
@@ -34,4 +36,6 @@ private:
 
 	// All consumed actions go into this intermediate combo buffer, which is used to validate combo actions.
 	TDoubleLinkedList<FCombatAction> ComboBuffer;
+
+	const AFighter* GetPossessedFighter() const;
 };
