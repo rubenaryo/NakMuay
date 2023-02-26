@@ -1,6 +1,6 @@
-#include "CombatComponent.h"
+#include "CombatActorComponent.h"
 
-UCombatComponent::UCombatComponent()
+UCombatActorComponent::UCombatActorComponent()
     : CurrentCombatActionType(ECombatActionType::None)
 {
     // Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
@@ -8,12 +8,12 @@ UCombatComponent::UCombatComponent()
     PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UCombatComponent::BeginPlay()
+void UCombatActorComponent::BeginPlay()
 {
     Super::BeginPlay();
 }
 
-bool UCombatComponent::GetNextCombatActionInQueue(ECombatActionType& CombatActionType)
+bool UCombatActorComponent::GetNextCombatActionInQueue(ECombatActionType& CombatActionType)
 {
     if (CombatActionQueue.IsEmpty())
         return false;
@@ -21,7 +21,7 @@ bool UCombatComponent::GetNextCombatActionInQueue(ECombatActionType& CombatActio
     return CombatActionQueue.Dequeue(CombatActionType);
 }
 
-bool UCombatComponent::AbleToConsumeAction()
+bool UCombatActorComponent::AbleToConsumeAction()
 {
     const bool bBufferedActions = !CombatActionQueue.IsEmpty();
     const bool bActionInProgress = CurrentCombatActionType != ECombatActionType::None;
@@ -30,34 +30,34 @@ bool UCombatComponent::AbleToConsumeAction()
     return bBufferedActions && !bActionInProgress && !bMoving;
 }
 
-void UCombatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UCombatActorComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
     Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
 
-bool UCombatComponent::SetCurrentCombatActionType(ECombatActionType combatAction)
+bool UCombatActorComponent::SetCurrentCombatActionType(ECombatActionType combatAction)
 {
     CurrentCombatActionType = combatAction;
     return true;
 }
 
-ECombatActionType UCombatComponent::GetCurrentCombatActionType() const
+ECombatActionType UCombatActorComponent::GetCurrentCombatActionType() const
 {
     return CurrentCombatActionType;
 }
 
-void UCombatComponent::ResetCombatState()
+void UCombatActorComponent::ResetCombatState()
 {
     // Currently, just resets to none.
     SetCurrentCombatActionType(ECombatActionType::None);
 }
 
-void UCombatComponent::QueueCombatAction(ECombatActionType actionIn)
+void UCombatActorComponent::QueueCombatAction(ECombatActionType actionIn)
 {
     CombatActionQueue.Enqueue(actionIn);
 }
 
-void UCombatComponent::SetSkeletalMeshComponent(USkeletalMeshComponent* skMeshComp)
+void UCombatActorComponent::SetSkeletalMeshComponent(USkeletalMeshComponent* skMeshComp)
 {
     SkeletalMeshComponent = skMeshComp;
 }

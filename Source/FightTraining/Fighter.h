@@ -4,8 +4,9 @@
 #include "GameFramework/Character.h"
 #include "Fighter.generated.h"
 
-class UCombatComponent;
+class UCombatActorComponent;
 class UShapeComponent;
+class UDecalComponent;
 
 /** 1:1 with ColliderSocketBindings **/
 enum ECombatColliderArea
@@ -58,10 +59,16 @@ class FIGHTTRAINING_API AFighter : public ACharacter
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UCombatComponent> CombatComponent;
+	TObjectPtr<UCombatActorComponent> CombatComponent;
 
 	UPROPERTY(EditDefaultsOnly, EditFixedSize, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
 	TArray<UShapeComponent*> CombatColliderPrimitives;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat");
+	AFighter* LockOnTarget;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UDecalComponent> LockOnDecal;
 	
 	// Sets default values for this character's properties
 	AFighter();
@@ -72,10 +79,19 @@ protected:
 	
 	virtual void PostInitializeComponents() override;
 
+	// Returns whether we are locked-on
+	UFUNCTION(BlueprintCallable)
+	bool UpdateLockOnTarget();
+
+	AFighter* FindNearestFighter() const;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	
 	UFUNCTION(BlueprintGetter, Category = "Combat")
-	UCombatComponent* GetCombatComponent() const;
+	UCombatActorComponent* GetCombatComponent() const;
+
+	UFUNCTION(BlueprintGetter, Category = "Combat")
+	UDecalComponent* GetLockOnDecal() const;
 };

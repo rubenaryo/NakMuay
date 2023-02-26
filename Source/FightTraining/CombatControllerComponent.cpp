@@ -1,7 +1,7 @@
-#include "FighterComponent.h"
+#include "CombatControllerComponent.h"
 
 #include "CombatAction.h"
-#include "CombatComponent.h"
+#include "CombatActorComponent.h"
 #include "InputAction.h"
 #include "FightTrainingGameMode.h"
 #include "Fighter.h"
@@ -25,18 +25,18 @@ namespace
 	}
 }
 
-UFighterComponent::UFighterComponent()
+UCombatControllerComponent::UCombatControllerComponent()
 	: UActorComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UFighterComponent::BeginPlay()
+void UCombatControllerComponent::BeginPlay()
 {
 	Super::BeginPlay();
 }
 
-void UFighterComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+void UCombatControllerComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	
@@ -67,7 +67,7 @@ void UFighterComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 	PrintBufferFrontToBack(CombatActionBuffer, 2, FColor::Cyan);
 }
 
-void UFighterComponent::AddToCombatActionBuffer(ECombatActionType type)
+void UCombatControllerComponent::AddToCombatActionBuffer(ECombatActionType type)
 {
 	static uint64_t idCounter = 0;
 	FCombatAction newAction;
@@ -83,7 +83,7 @@ void UFighterComponent::AddToCombatActionBuffer(ECombatActionType type)
 	TryToAppendCombo(newAction);
 }
 
-bool UFighterComponent::TryToAppendCombo(const FCombatAction& newestAction)
+bool UCombatControllerComponent::TryToAppendCombo(const FCombatAction& newestAction)
 {
 	// TODO: Factor out to a different function
 	const AFightTrainingGameMode* pGameMode = Cast<const AFightTrainingGameMode>(GetWorld()->GetAuthGameMode());
@@ -111,7 +111,7 @@ bool UFighterComponent::TryToAppendCombo(const FCombatAction& newestAction)
 
 		// Scan the action buffer for a valid sequence for this combo, back-to-front
 		// We don't need to scan the last element of comboSeq, we know that one's valid already (hence Num() - 2)
-		for (size_t j = comboSeq.Num() - 2; j >= 0 && pComboIt; --j)
+		for (int j = comboSeq.Num() - 2; j >= 0 && pComboIt; --j)
 		{
 			if (pComboIt->GetValue().Type != comboSeq[j])
 			{
@@ -146,7 +146,7 @@ bool UFighterComponent::TryToAppendCombo(const FCombatAction& newestAction)
 	return false;
 }
 
-bool UFighterComponent::ValidateComboBuffer(const TDoubleLinkedList<FCombatAction>::TDoubleLinkedListNode* newlyConsumedAction)
+bool UCombatControllerComponent::ValidateComboBuffer(const TDoubleLinkedList<FCombatAction>::TDoubleLinkedListNode* newlyConsumedAction)
 {
 	const AFightTrainingGameMode* pGameMode = Cast<const AFightTrainingGameMode>(GetWorld()->GetAuthGameMode());
 
@@ -193,7 +193,7 @@ bool UFighterComponent::ValidateComboBuffer(const TDoubleLinkedList<FCombatActio
 	return true;
 }
 
-const AFighter* UFighterComponent::GetPossessedFighter() const
+const AFighter* UCombatControllerComponent::GetPossessedFighter() const
 {
 	const AController* pController = Cast<AController>(GetOwner());
 	return pController ? Cast<AFighter>(pController->GetCharacter()) : nullptr;

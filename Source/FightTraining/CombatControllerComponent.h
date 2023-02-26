@@ -3,18 +3,17 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "CombatAction.h"
-#include "FighterComponent.generated.h"
+#include "CombatControllerComponent.generated.h"
 
 class AFighter;
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class FIGHTTRAINING_API UFighterComponent : public UActorComponent
+UCLASS(Blueprintable, ClassGroup=(Combat), meta=(BlueprintSpawnableComponent) )
+class FIGHTTRAINING_API UCombatControllerComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
-	UFighterComponent();
-	//UFighterComponent(const FObjectInitializer& ObjectInitializer);
+	UCombatControllerComponent();
 
 protected:
 	virtual void BeginPlay() override;
@@ -37,5 +36,6 @@ private:
 	// All consumed actions go into this intermediate combo buffer, which is used to validate combo actions.
 	TDoubleLinkedList<FCombatAction> ComboBuffer;
 
+	UFUNCTION(BlueprintCallable)
 	const AFighter* GetPossessedFighter() const;
 };
