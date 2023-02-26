@@ -12,3 +12,10 @@ Saved
 *.suo
 *.xcodeproj
 *.xcworkspace
+/Plugins/Developer/RiderLink
+/Content/Interface/Textures
+/.idea/.idea.FightTraining/.idea/vcs.xml
+/.idea/.idea.FightTraining/.idea/indexLayout.xml
+/.idea/.idea.FightTraining/.idea/encodings.xml
+/.idea/.idea.FightTraining/.idea/.gitignore
+/.idea/.idea.FightTraining/.idea
