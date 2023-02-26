@@ -51,8 +51,6 @@ void AFighter::PostInitializeComponents()
 
 bool AFighter::UpdateLockOnTarget()
 {
-	FString debugStr;
-
 	const auto ToggleDecalForLockOnTarget = [this](bool bNewDecalState)
 	{
 		if (!LockOnTarget)
@@ -70,24 +68,21 @@ bool AFighter::UpdateLockOnTarget()
 	{
 		ToggleDecalForLockOnTarget(false);
 		LockOnTarget = nullptr;
-		debugStr.Appendf(TEXT("Null"));
-		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Orange, debugStr);
 		return false;
 	}
 
 	LockOnTarget = FindNearestFighter();
 	ToggleDecalForLockOnTarget(true);
-	debugStr.Appendf(TEXT("0x%x"), LockOnTarget ? LockOnTarget->GetUniqueID() : 0);
-	GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Orange, debugStr);
 	return true;
 }
 
 AFighter* AFighter::FindNearestFighter() const
 {
-	static const float MAX_RADIUS_TO_SELF_SQ = 1000.0f;
+	static const float MAX_RADIUS_UE = 20.0f * 100.0f;
+	static const float MAX_RADIUS_UE_SQ = MAX_RADIUS_UE * MAX_RADIUS_UE;
 
 	AFighter* pClosestFighter = nullptr;
-	float closestFighterDistanceSq = FLT_MAX;
+	float closestFighterDistanceSq = MAX_RADIUS_UE_SQ;
 
 	for (TActorIterator<AFighter> actorItr(GetWorld()); actorItr; ++actorItr)
 	{
@@ -96,7 +91,10 @@ AFighter* AFighter::FindNearestFighter() const
 		if (!pFighter || pFighter->GetUniqueID() == this->GetUniqueID())
 			continue;
 
-		float distSq = ((pFighter->GetActorLocation() - this->GetActorLocation()).SizeSquared());
+		FVector targetLoc = pFighter->GetActorLocation();
+		FVector diff = targetLoc - this->GetActorLocation();
+		float distSq = diff.SizeSquared2D();
+
 		if (distSq < closestFighterDistanceSq)
 		{
 			pClosestFighter = pFighter;
