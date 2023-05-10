@@ -135,7 +135,7 @@ bool UCombatControllerComponent::TryToAppendCombo(const FCombatAction& newestAct
 			FCombatAction comboAction;
 			comboAction.SourceActionInstance = newestAction.SourceActionInstance;
 			comboAction.ElapsedTriggeredTime = newestAction.ElapsedTriggeredTime;
-			comboAction.UniqueID = newestAction.UniqueID + 1;
+			comboAction.UniqueID = newestAction.UniqueID + 1; // TODO: This will not yield a unique ID under current implementation.
 			comboAction.Type = pCombo->Type;
 			CombatActionBuffer.AddTail(comboAction);
 			ComboBuffer.Empty();
