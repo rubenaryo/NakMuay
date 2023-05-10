@@ -9,7 +9,7 @@
 class UCapsuleComponent;
 
 UCLASS()
-class FIGHTTRAINING_API ASandbagActor : public AActor
+class NAKMUAY_API ASandbagActor : public AActor
 {
 	GENERATED_BODY()
 

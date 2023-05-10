@@ -17,7 +17,7 @@ enum EMovementActionState
 };
 
 UCLASS(Blueprintable, ClassGroup = Combat, meta=(BlueprintSpawnableComponent))
-class FIGHTTRAINING_API UCombatActorComponent : public UActorComponent
+class NAKMUAY_API UCombatActorComponent : public UActorComponent
 {
     GENERATED_BODY()
 

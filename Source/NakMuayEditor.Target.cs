@@ -3,12 +3,12 @@
 using UnrealBuildTool;
 using System.Collections.Generic;
 
-public class FightTrainingEditorTarget : TargetRules
+public class NakMuayEditorTarget : TargetRules
 {
-	public FightTrainingEditorTarget(TargetInfo Target) : base(Target)
+	public NakMuayEditorTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Editor;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
-		ExtraModuleNames.Add("FightTraining");
+		ExtraModuleNames.Add("NakMuay");
 	}
 }

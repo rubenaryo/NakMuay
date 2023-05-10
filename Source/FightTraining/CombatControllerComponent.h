@@ -8,7 +8,7 @@
 class AFighter;
 
 UCLASS(Blueprintable, ClassGroup=(Combat), meta=(BlueprintSpawnableComponent) )
-class FIGHTTRAINING_API UCombatControllerComponent : public UActorComponent
+class NAKMUAY_API UCombatControllerComponent : public UActorComponent
 {
 	GENERATED_BODY()
 

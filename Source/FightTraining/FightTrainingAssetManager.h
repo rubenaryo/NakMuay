@@ -10,7 +10,7 @@
  * AssetManager override to manage game-specific assets and their initialization
  */
 UCLASS()
-class FIGHTTRAINING_API UFightTrainingAssetManager : public UAssetManager
+class NAKMUAY_API UFightTrainingAssetManager : public UAssetManager
 {
 	GENERATED_BODY()
 	

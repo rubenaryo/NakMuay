@@ -35,7 +35,7 @@ struct FCombatAction
 };
 
 UCLASS(BlueprintType)
-class FIGHTTRAINING_API UComboSpec : public UDataAsset
+class NAKMUAY_API UComboSpec : public UDataAsset
 {
 	GENERATED_BODY()
 	

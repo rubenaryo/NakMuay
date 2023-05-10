@@ -3,12 +3,12 @@
 using UnrealBuildTool;
 using System.Collections.Generic;
 
-public class FightTrainingTarget : TargetRules
+public class NakMuayTarget : TargetRules
 {
-	public FightTrainingTarget(TargetInfo Target) : base(Target)
+	public NakMuayTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V2;
-		ExtraModuleNames.Add("FightTraining");
+		ExtraModuleNames.Add("NakMuay");
 	}
 }

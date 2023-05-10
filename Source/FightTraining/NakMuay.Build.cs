@@ -2,9 +2,9 @@
 
 using UnrealBuildTool;
 
-public class FightTraining : ModuleRules
+public class NakMuay : ModuleRules
 {
-	public FightTraining(ReadOnlyTargetRules Target) : base(Target)
+	public NakMuay(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 

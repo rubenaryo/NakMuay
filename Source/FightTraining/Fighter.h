@@ -54,7 +54,7 @@ struct CombatColliderState
  * in favor of something more lightweight.
 **/
 UCLASS(meta = (ShortTooltip = "A fighter is a type of Character that holds combat specific behavior"))
-class FIGHTTRAINING_API AFighter : public ACharacter
+class NAKMUAY_API AFighter : public ACharacter
 {
 	GENERATED_BODY()
 
