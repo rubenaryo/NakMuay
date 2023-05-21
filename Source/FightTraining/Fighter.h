@@ -71,8 +71,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UDecalComponent> LockOnDecal;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UPhysicalAnimationComponent> PhysicalAnimComponent;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat", meta = (AllowPrivateAccess = "true"))
+	//TObjectPtr<UPhysicalAnimationComponent> PhysicalAnimComponent;
 	
 	// Sets default values for this character's properties
 	AFighter();

@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "5.0",
+	"EngineAssociation": "5.2",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -311,10 +311,6 @@
 			"Enabled": false
 		},
 		{
-			"Name": "VisualStudioSourceCodeAccess",
-			"Enabled": false
-		},
-		{
 			"Name": "WindowsDeviceProfileSelector",
 			"Enabled": false
 		},
@@ -332,7 +328,7 @@
 		},
 		{
 			"Name": "WorldPartitionHLODUtilities",
-			"Enabled": false
+			"Enabled": true
 		},
 		{
 			"Name": "XCodeSourceCodeAccess",

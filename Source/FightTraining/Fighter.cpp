@@ -24,7 +24,7 @@ AFighter::AFighter()
 	LockOnDecal = CreateDefaultSubobject<UDecalComponent>(FName(TEXT("LockOnDecal")));
 	LockOnDecal->SetupAttachment(RootComponent);
 
-	PhysicalAnimComponent = CreateDefaultSubobject<UPhysicalAnimationComponent>(FName(TEXT("PhysicalAnimComp")));
+	//PhysicalAnimComponent = CreateDefaultSubobject<UPhysicalAnimationComponent>(FName(TEXT("PhysicalAnimComp")));
 }
 
 void AFighter::PostInitializeComponents()

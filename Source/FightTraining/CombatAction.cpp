@@ -2,7 +2,7 @@
 
 #include "CombatAction.h"
 
-static const FString CA_TYPE_NAMES[ECombatActionType::Count] =
+static const FString CA_TYPE_NAMES[5] =
 {
 	TEXT("None"),
 	TEXT("Lead Straight"),
