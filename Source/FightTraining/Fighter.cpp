@@ -1,6 +1,7 @@
 #include "Fighter.h"
 
 #include "FightTraining/CombatActorComponent.h"
+#include "FightTraining/FighterPhysicalAnimComponent.h"
 #include "Components/DecalComponent.h"
 #include "Components/ShapeComponent.h"
 
@@ -24,7 +25,7 @@ AFighter::AFighter()
 	LockOnDecal = CreateDefaultSubobject<UDecalComponent>(FName(TEXT("LockOnDecal")));
 	LockOnDecal->SetupAttachment(RootComponent);
 
-	//PhysicalAnimComponent = CreateDefaultSubobject<UPhysicalAnimationComponent>(FName(TEXT("PhysicalAnimComp")));
+	PhysicalAnimComponent = CreateDefaultSubobject<UFighterPhysicalAnimComponent>(FName(TEXT("PhysicalFighterAnimComp")));
 }
 
 void AFighter::PostInitializeComponents()
