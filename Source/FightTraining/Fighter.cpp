@@ -26,6 +26,23 @@ AFighter::AFighter()
 	LockOnDecal->SetupAttachment(RootComponent);
 
 	PhysicalAnimComponent = CreateDefaultSubobject<UFighterPhysicalAnimComponent>(FName(TEXT("PhysicalFighterAnimComp")));
+	//if (PhysicalAnimComponent)
+	//{
+	//	PhysicalAnimComponent->RegisterComponent();
+	//	//PhysicalAnimComponent->PrimaryComponentTick.bCanEverTick = true;
+	//}
+}
+
+// Called when the game starts or when spawned
+void AFighter::BeginPlay()
+{
+    Super::BeginPlay();
+}
+
+// Called every frame
+void AFighter::Tick(float DeltaTime)
+{
+    Super::Tick(DeltaTime);
 }
 
 void AFighter::PostInitializeComponents()
@@ -52,6 +69,9 @@ void AFighter::PostInitializeComponents()
 
 	if (CombatComponent)
 		CombatComponent->SetSkeletalMeshComponent(GetMesh());
+
+	if (PhysicalAnimComponent)
+		PhysicalAnimComponent->SetSkeletalMeshComponent(GetMesh());
 }
 
 bool AFighter::UpdateLockOnTarget()
@@ -109,18 +129,6 @@ AFighter* AFighter::FindNearestFighter() const
 	return pClosestFighter;
 }
 
-// Called when the game starts or when spawned
-void AFighter::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
-// Called every frame
-void AFighter::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
-
 UCombatActorComponent* AFighter::GetCombatComponent() const
 {
 	return CombatComponent;
@@ -129,4 +137,9 @@ UCombatActorComponent* AFighter::GetCombatComponent() const
 UDecalComponent* AFighter::GetLockOnDecal() const
 {
 	return LockOnDecal;
+}
+
+UFighterPhysicalAnimComponent* AFighter::GetPhysicalAnimComponent() const
+{
+	return PhysicalAnimComponent;
 }

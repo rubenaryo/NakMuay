@@ -98,4 +98,7 @@ public:
 
 	UFUNCTION(BlueprintGetter, Category = "Combat")
 	UDecalComponent* GetLockOnDecal() const;
+
+    UFUNCTION(BlueprintGetter, Category = "Combat")
+    UFighterPhysicalAnimComponent* GetPhysicalAnimComponent() const;
 };
