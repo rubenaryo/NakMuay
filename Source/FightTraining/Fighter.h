@@ -59,8 +59,11 @@ class NAKMUAY_API AFighter : public ACharacter
 	GENERATED_BODY()
 
 public:
+	// Sets default values for this character's properties
+	AFighter();
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UCombatActorComponent> CombatComponent;
+	TObjectPtr<UCombatActorComponent> CombatComponent; // Initialized in BP Construction Script
 
 	UPROPERTY(EditDefaultsOnly, EditFixedSize, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
 	TArray<UShapeComponent*> CombatColliderPrimitives;
@@ -72,10 +75,8 @@ public:
 	TObjectPtr<UDecalComponent> LockOnDecal;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UFighterPhysicalAnimComponent> PhysicalAnimComponent;
+	TObjectPtr<UFighterPhysicalAnimComponent> PhysicalAnimComponent; // Initialized in BP Construction Script
 	
-	// Sets default values for this character's properties
-	AFighter();
 
 protected:
 	// Called when the game starts or when spawned

@@ -4,11 +4,8 @@
 #include "FighterPhysicalAnimComponent.h"
 
 UFighterPhysicalAnimComponent::UFighterPhysicalAnimComponent()
-    : UPhysicalAnimationComponent()
 {
     PrimaryComponentTick.bCanEverTick = true;
-    bWantsInitializeComponent = true;
-
 }
 
 void UFighterPhysicalAnimComponent::BeginPlay()

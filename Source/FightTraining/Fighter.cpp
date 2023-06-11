@@ -24,13 +24,6 @@ AFighter::AFighter()
 
 	LockOnDecal = CreateDefaultSubobject<UDecalComponent>(FName(TEXT("LockOnDecal")));
 	LockOnDecal->SetupAttachment(RootComponent);
-
-	PhysicalAnimComponent = CreateDefaultSubobject<UFighterPhysicalAnimComponent>(FName(TEXT("PhysicalFighterAnimComp")));
-	//if (PhysicalAnimComponent)
-	//{
-	//	PhysicalAnimComponent->RegisterComponent();
-	//	//PhysicalAnimComponent->PrimaryComponentTick.bCanEverTick = true;
-	//}
 }
 
 // Called when the game starts or when spawned
