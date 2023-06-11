@@ -9,45 +9,6 @@ class UShapeComponent;
 class UDecalComponent;
 class UFighterPhysicalAnimComponent;
 
-/** 1:1 with ColliderSocketBindings **/
-enum ECombatColliderArea
-{
-	CCA_LeftHand,
-	CCA_RightHand,
-	CCA_LeftKnee,
-	CCA_RightKnee,
-	CCA_LeftShin,
-	CCA_RightShin,
-	CCA_LeftFoot,
-	CCA_RightFoot,
-	CCA_LeftElbow,
-	CCA_RightElbow,
-	
-	CCA_Count
-};
-
-inline FName CombatColliderSocketBindings[CCA_Count] =
-{
-	FName(TEXT("hand_l_Socket")),	// CCA_LeftHand
-	FName(TEXT("hand_r_Socket")),	// CCA_RightHand
-	FName(TEXT("knee_l_Socket")),	// CCA_LeftKnee
-	FName(TEXT("knee_r_Socket")),	// CCA_RightKnee
-	FName(TEXT("shin_l_Socket")),	// CCA_LeftShin
-	FName(TEXT("shin_r_Socket")),	// CCA_RightShin
-	FName(TEXT("foot_l_Socket")),	// CCA_LeftFoot
-	FName(TEXT("foot_r_Socket")),	// CCA_RightFoot
-	FName(TEXT("elbow_l_Socket")),	// CCA_LeftElbow
-	FName(TEXT("elbow_r_Socket"))	// CCA_RightElbow
-};
-
-// Keep this 64bit-aligned to minimize waste from padding
-// TODO
-struct CombatColliderState
-{
-	CombatColliderState() : bEnabled(true) {};
-	bool bEnabled;
-};
-
 /**
  * Fighters are characters that have combat specific behavior.
  * NOTE: This will probably not inherit from ACharacter in the future, once that class is discarded
@@ -65,9 +26,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UCombatActorComponent> CombatComponent; // Initialized in BP Construction Script
 
-	UPROPERTY(EditDefaultsOnly, EditFixedSize, BlueprintReadOnly, Category = "Combat", meta = (AllowPrivateAccess = "true"))
-	TArray<UShapeComponent*> CombatColliderPrimitives;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat");
 	AFighter* LockOnTarget;
 
@@ -76,7 +34,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UFighterPhysicalAnimComponent> PhysicalAnimComponent; // Initialized in BP Construction Script
-	
 
 protected:
 	// Called when the game starts or when spawned

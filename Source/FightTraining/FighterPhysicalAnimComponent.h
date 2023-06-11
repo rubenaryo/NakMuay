@@ -24,10 +24,7 @@ public:
     virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
     UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-    void TogglePhysicalAnimation_Implementation();
-    
-    UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-    void OnHit_Implementation();
+    void OnHit_Implementation(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
     
     UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
     void Tick_Implementation(float DeltaTime);

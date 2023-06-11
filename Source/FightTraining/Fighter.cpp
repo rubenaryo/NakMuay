@@ -10,15 +10,9 @@
 #include "EngineUtils.h"
 
 AFighter::AFighter()
+	: Super()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	
-	CombatColliderPrimitives.Init(nullptr, CCA_Count);
-	//for (uint32_t i = 0; i != ECombatColliderArea::CCA_Count; ++i)
-	//{
-	//	//if (CombatColliderPrimitives[i])
-	//		CombatColliderPrimitives[i]->SetupAttachment(GetMesh(), CombatColliderSocketBindings[i]);
-	//}
 
 	LockOnTarget = nullptr;
 
@@ -42,29 +36,14 @@ void AFighter::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 
-	static const FAttachmentTransformRules skAttachmentRules(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, EAttachmentRule::KeepWorld, false);
-	
-	for (uint32_t i = 0; i != ECombatColliderArea::CCA_Count; ++i)
-	{
-		UShapeComponent* pPrim = CombatColliderPrimitives[i];
-
-		if (pPrim)
-		{
-			if (!pPrim->AttachToComponent(GetMesh(), skAttachmentRules, CombatColliderSocketBindings[i]))
-			{
-				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, CombatColliderSocketBindings[i].GetPlainNameString());			
-			}
-			
-			pPrim->SetHiddenInGame(false);
-			pPrim->SetVisibility(true);
-		}
-	}
-
-	if (CombatComponent)
-		CombatComponent->SetSkeletalMeshComponent(GetMesh());
-
 	if (PhysicalAnimComponent)
 		PhysicalAnimComponent->SetSkeletalMeshComponent(GetMesh());
+
+	if (CombatComponent)
+	{	
+		CombatComponent->SetSkeletalMeshComponent(GetMesh());
+		CombatComponent->SetPhysicalAnimComponent(PhysicalAnimComponent);
+	}
 }
 
 bool AFighter::UpdateLockOnTarget()
