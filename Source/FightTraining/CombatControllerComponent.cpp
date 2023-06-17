@@ -103,7 +103,7 @@ bool UCombatControllerComponent::TryToAppendCombo(const FCombatAction& newestAct
 		check(pCombo);
 		if (!pCombo)
 			continue;
-		
+		 
 		const TArray<ECombatActionType>& comboSeq = pCombo->CombatActionSequence;
 		
 		auto* pComboIt = ComboBuffer.GetTail();
