@@ -28,28 +28,14 @@ void UFighterPhysicalAnimComponent::TickComponent(float DeltaTime, ELevelTick Ti
     Tick_Implementation(DeltaTime);
 }
 
-bool UFighterPhysicalAnimComponent::OnGetHit(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult, ECombatActionType AttackType)
+bool UFighterPhysicalAnimComponent::OnGetHit(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult, ECombatActionType AttackType, float PhysicsHitStrength)
 {
-    return OnGetHit_Implementation(HitComp, AttackingFighter, InHitResult, AttackType);
+    return OnGetHit_Implementation(HitComp, AttackingFighter, InHitResult, AttackType, PhysicsHitStrength);
 }
 
 void UFighterPhysicalAnimComponent::SetActiveHitBlendWeight(FHitReactionJob& hitReactionJob, float newBlendWeight)
 {
     hitReactionJob.BlendWeight = newBlendWeight;
-}
-
-void UFighterPhysicalAnimComponent::SortActiveHitsByBlendWeight()
-{
-    //class HitPredicate
-    //{
-    //public:
-    //    bool operator()(const FHitReactionJob& A, const FHitReactionJob& B)
-    //    {
-    //        return A.BlendWeight < B.BlendWeight;
-    //    }
-    //} hitPredicate;
-    //
-    //ActiveHits.Sort(hitPredicate);
 }
 
 void UFighterPhysicalAnimComponent::PushActiveHit(const FHitReactionJob& hitReactionJob)

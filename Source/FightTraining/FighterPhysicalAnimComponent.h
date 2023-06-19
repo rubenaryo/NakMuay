@@ -50,11 +50,11 @@ public:
     virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
     UFUNCTION(BlueprintCallable, meta = (Tooltip = "Returns True if registered as a valid hit"))
-    bool OnGetHit(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult, ECombatActionType AttackType);
+    bool OnGetHit(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult, ECombatActionType AttackType, float PhysicsHitStrength);
 
 protected:
     UFUNCTION(BlueprintImplementableEvent)
-    bool OnGetHit_Implementation(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult, ECombatActionType AttackType);
+    bool OnGetHit_Implementation(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult, ECombatActionType AttackType, float PhysicsHitStrength);
     
     UFUNCTION(BlueprintImplementableEvent)
     void Tick_Implementation(float DeltaTime);
@@ -64,9 +64,6 @@ protected:
 
     UFUNCTION(BlueprintCallable)
     void SetActiveHitBlendWeight(UPARAM(ref) FHitReactionJob& hitReactionJob, float newBlendWeight);
-
-    UFUNCTION(BlueprintCallable)
-    void SortActiveHitsByBlendWeight();
 
     UFUNCTION(BlueprintCallable)
     void PushActiveHit(const FHitReactionJob& hitReactionJob);

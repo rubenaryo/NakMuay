@@ -43,15 +43,15 @@ bool UCombatActorComponent::AbleToConsumeAction()
     return bBufferedActions && !bActionInProgress && !bMoving;
 }
 
-bool UCombatActorComponent::OnGetHit(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult, ECombatActionType AttackType)
+bool UCombatActorComponent::OnGetHit(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult, ECombatActionType AttackType, float PhysicsHitStrength)
 {
     UFighterPhysicalAnimComponent* pPhysicalAnimComp = GetPhysicalAnimComponent();
     if (!pPhysicalAnimComp)
         return false;
 
-    OnGetHit_BlueprintImpl(HitComp, AttackingFighter, InHitResult, AttackType);
+    OnGetHit_BlueprintImpl(HitComp, AttackingFighter, InHitResult, AttackType, PhysicsHitStrength);
 
-    return pPhysicalAnimComp->OnGetHit(HitComp, AttackingFighter, InHitResult, AttackType);
+    return pPhysicalAnimComp->OnGetHit(HitComp, AttackingFighter, InHitResult, AttackType, PhysicsHitStrength);
 }
 
 void UCombatActorComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)

@@ -95,13 +95,13 @@ public:
     bool GetSocketTransformForColliderArea(FTransform& OutTransform, ECombatColliderArea colliderArea, ERelativeTransformSpace transformSpace = ERelativeTransformSpace::RTS_World);
 
     UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-    void HandleActiveAttackBegin(ECombatColliderArea colliderArea);
+    void HandleActiveAttackBegin(ECombatColliderArea colliderArea, float PhysicsHitStrength);
 
     UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-    void HandleActiveAttackTick(ECombatColliderArea colliderArea, float TraceRadius);
+    void HandleActiveAttackTick(ECombatColliderArea colliderArea, float TraceRadius, float PhysicsHitStrength);
 
     UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-    void HandleActiveAttackEnd(ECombatColliderArea colliderArea);
+    void HandleActiveAttackEnd(ECombatColliderArea colliderArea, float PhysicsHitStrength);
 
 protected:
     // Called when the game starts
@@ -117,10 +117,10 @@ protected:
     bool AbleToConsumeAction();
 
     UFUNCTION(BlueprintCallable, meta = (Tooltip = "Returns True if registered as a valid hit"))
-    bool OnGetHit(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult, ECombatActionType AttackType);
+    bool OnGetHit(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult, ECombatActionType AttackType, float PhysicsHitStrength);
 
     UFUNCTION(BlueprintImplementableEvent, meta = (Tooltip = "Returns True if registered as a valid hit"))
-    bool OnGetHit_BlueprintImpl(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult, ECombatActionType AttackType);
+    bool OnGetHit_BlueprintImpl(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult, ECombatActionType AttackType, float PhysicsHitStrength);
 
     UFUNCTION(BlueprintCallable)
     void SetRegisteredAttackHitFlag(ECombatColliderArea cca, bool bEnable)
