@@ -1,6 +1,8 @@
 // (c) rubenaryo 2022
 #include "FighterPhysicalAnimComponent.h"
 
+#include "FightTrainingGameMode.h"
+
 FHitReactionJob::FHitReactionJob(const FVector& hitImpulse, const FVector& impactPoint, const FName& hitBoneName, float blendWeight)
     : HitImpulse(hitImpulse)
     , ImpactPoint(impactPoint)
@@ -26,9 +28,9 @@ void UFighterPhysicalAnimComponent::TickComponent(float DeltaTime, ELevelTick Ti
     Tick_Implementation(DeltaTime);
 }
 
-bool UFighterPhysicalAnimComponent::OnGetHit(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult)
+bool UFighterPhysicalAnimComponent::OnGetHit(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult, ECombatActionType AttackType)
 {
-    return OnGetHit_Implementation(HitComp, AttackingFighter, InHitResult);
+    return OnGetHit_Implementation(HitComp, AttackingFighter, InHitResult, AttackType);
 }
 
 void UFighterPhysicalAnimComponent::SetActiveHitBlendWeight(FHitReactionJob& hitReactionJob, float newBlendWeight)

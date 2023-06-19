@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CombatAction.h"
 #include "Containers/List.h"
 #include "PhysicsEngine/PhysicalAnimationComponent.h"
 #include "FighterPhysicalAnimComponent.generated.h"
@@ -49,11 +50,11 @@ public:
     virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
     UFUNCTION(BlueprintCallable, meta = (Tooltip = "Returns True if registered as a valid hit"))
-    bool OnGetHit(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult);
+    bool OnGetHit(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult, ECombatActionType AttackType);
 
 protected:
     UFUNCTION(BlueprintImplementableEvent)
-    bool OnGetHit_Implementation(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult);
+    bool OnGetHit_Implementation(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult, ECombatActionType AttackType);
     
     UFUNCTION(BlueprintImplementableEvent)
     void Tick_Implementation(float DeltaTime);
@@ -73,7 +74,8 @@ protected:
     UFUNCTION(BlueprintCallable)
     void TickActiveHits(float DeltaTime);
 
-    // TODO: Maybe use a custom linked list container for these. For fast insert/delete
-    //UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
+    UFUNCTION(BlueprintCallable)
+    bool NoActiveHits() const { return ActiveHits.IsEmpty(); }
+
     TDoubleLinkedList<FHitReactionJob> ActiveHits;
 };

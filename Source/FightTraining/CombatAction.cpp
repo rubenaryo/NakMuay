@@ -16,3 +16,12 @@ const FString& GetCombatActionNameFromType(ECombatActionType type)
 	return CA_TYPE_NAMES[(uint8)type];
 }
 
+UCombatActionToHitProfile::UCombatActionToHitProfile() : UDataAsset()
+{
+	CombatActionToHitProfile.SetNum((int32_t)ECombatActionType::Count, false);
+
+	for (uint8_t i = 0; i != (uint8_t)ECombatActionType::Count; ++i)
+	{
+		CombatActionToHitProfile[i] = FName(GetCombatActionNameFromType((ECombatActionType)i));
+	}
+}

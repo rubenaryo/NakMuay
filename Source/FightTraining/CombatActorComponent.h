@@ -117,10 +117,10 @@ protected:
     bool AbleToConsumeAction();
 
     UFUNCTION(BlueprintCallable, meta = (Tooltip = "Returns True if registered as a valid hit"))
-    bool OnGetHit(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult);
+    bool OnGetHit(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult, ECombatActionType AttackType);
 
     UFUNCTION(BlueprintImplementableEvent, meta = (Tooltip = "Returns True if registered as a valid hit"))
-    bool OnGetHit_BlueprintImpl(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult);
+    bool OnGetHit_BlueprintImpl(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult, ECombatActionType AttackType);
 
     UFUNCTION(BlueprintCallable)
     void SetRegisteredAttackHitFlag(ECombatColliderArea cca, bool bEnable)

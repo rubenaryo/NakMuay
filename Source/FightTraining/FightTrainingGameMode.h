@@ -30,6 +30,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	const UAnimationAsset* GetAnimMontageForCombatActionType(ECombatActionType type) const;
 
+	UFUNCTION(BlueprintCallable)
+	FName GetHitProfileFromCombatAction(ECombatActionType type) const { return CombatActionToHitProfileMapping->CombatActionToHitProfile[(int32_t)type]; }
+
 	/**
 	 * All combos available in this game mode
 	 */
@@ -38,6 +41,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	TMap<ECombatActionType, UAnimationAsset*> CombatActionMontageMap;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TObjectPtr<UCombatActionToHitProfile> CombatActionToHitProfileMapping;
 	
 protected:
 	/**

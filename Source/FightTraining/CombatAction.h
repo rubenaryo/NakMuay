@@ -52,3 +52,16 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	ECombatActionType Type = ECombatActionType::None;
 };
+
+UCLASS(BlueprintType)
+class NAKMUAY_API UCombatActionToHitProfile : public UDataAsset
+{
+	GENERATED_BODY()
+
+	UCombatActionToHitProfile();
+
+public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TArray<FName> CombatActionToHitProfile;
+};
