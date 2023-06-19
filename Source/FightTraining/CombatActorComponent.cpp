@@ -4,7 +4,7 @@
 #include "FighterPhysicalAnimComponent.h"
 #include "Fighter.h"
 
-const FName& GetSocketNameForColliderArea(ECombatColliderArea area)
+const FName& UCombatActorComponent::GetSocketNameForColliderArea(ECombatColliderArea area)
 {
     check(area < CCA_Count);
     return CombatColliderSocketBindings[area];
@@ -21,40 +21,9 @@ UCombatActorComponent::UCombatActorComponent()
     PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UCombatActorComponent::SetColliderShape(UShapeComponent* colliderShape, int index)
-{
-    if (index < CCA_Count)
-    {
-        colliderShape->SetCollisionObjectType(ECC_PhysicsBody);
-        colliderShape->OnComponentHit.AddDynamic(this, &UCombatActorComponent::OnHitCallback);
-        colliderShape->OnComponentBeginOverlap.AddDynamic(this, &UCombatActorComponent::OnOverlapCallback);
-        CombatColliderShapes[index] = colliderShape;
-    }
-}
-
 void UCombatActorComponent::BeginPlay()
 {
     Super::BeginPlay();
-
-    static const FAttachmentTransformRules skAttachmentRules(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, EAttachmentRule::KeepWorld, false);
-
-    for (uint32_t i = 0; i != CCA_Count; ++i)
-    {
-        ECombatColliderArea cca = (ECombatColliderArea)i;
-        UShapeComponent* pPrim = GetCollider(cca);
-
-        if (pPrim)
-        {
-            const FName& socketName = GetSocketNameForColliderArea(cca);
-            if (!pPrim->AttachToComponent(GetSkeletalMeshComponent(), skAttachmentRules, socketName))
-            {
-                GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, socketName.GetPlainNameString());
-            }
-
-            pPrim->SetVisibility(true);
-            pPrim->SetHiddenInGame(false);
-        }
-    }
 }
 
 bool UCombatActorComponent::GetNextCombatActionInQueue(ECombatActionType& CombatActionType)
@@ -74,26 +43,15 @@ bool UCombatActorComponent::AbleToConsumeAction()
     return bBufferedActions && !bActionInProgress && !bMoving;
 }
 
-void UCombatActorComponent::OnHitCallback(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+bool UCombatActorComponent::OnGetHit(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult)
 {
-    AFighter* pOtherFighter = Cast<AFighter>(OtherActor);
-    if (!pOtherFighter || OtherActor->GetUniqueID() == GetOwner()->GetUniqueID())
-        return;
+    UFighterPhysicalAnimComponent* pPhysicalAnimComp = GetPhysicalAnimComponent();
+    if (!pPhysicalAnimComp)
+        return false;
 
-    UFighterPhysicalAnimComponent* pOtherPhysicalAnimComp = pOtherFighter->GetPhysicalAnimComponent();
+    OnGetHit_BlueprintImpl(HitComp, AttackingFighter, InHitResult);
 
-    OnHit_BlueprintImpl(HitComp, OtherActor, OtherComp, NormalImpulse, Hit);
-
-    pOtherPhysicalAnimComp->OnHit_Implementation(HitComp, OtherActor, OtherComp, NormalImpulse, Hit);
-}
-
-void UCombatActorComponent::OnOverlapCallback(UPrimitiveComponent* OverlappedComp, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-    AFighter* pOtherFighter = Cast<AFighter>(Other);
-    if (!pOtherFighter || Other->GetUniqueID() == GetOwner()->GetUniqueID())
-        return;
-
-    int stub = 42;
+    return pPhysicalAnimComp->OnGetHit(HitComp, AttackingFighter, InHitResult);
 }
 
 void UCombatActorComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -133,23 +91,15 @@ void UCombatActorComponent::SetPhysicalAnimComponent(UFighterPhysicalAnimCompone
     PhysicalAnimComp = physicalAnimComp;
 }
 
-void UCombatActorComponent::EnableCollider(ECombatColliderArea colliderArea, bool bEnable)
+bool UCombatActorComponent::GetSocketTransformForColliderArea(FTransform& OutTransform, ECombatColliderArea colliderArea, ERelativeTransformSpace transformSpace)
 {
-    if (colliderArea >= CCA_Count)
-        return;
-
-     UShapeComponent* collider = GetCollider(colliderArea);
-    if (!collider)
-        return;
-
-    if (bEnable)
+    USkeletalMeshComponent* pSkelMeshComp = GetSkeletalMeshComponent();
+    if (!pSkelMeshComp)
     {
-        collider->SetNotifyRigidBodyCollision(true);
-        collider->SetCollisionResponseToChannel(ECC_PhysicsBody, ECR_Block);
+        return false;
     }
-    else
-    {
-        collider->SetNotifyRigidBodyCollision(false);
-        collider->SetCollisionResponseToChannel(ECC_PhysicsBody, ECR_Ignore);
-    }
+
+    const FName& socketName = GetSocketNameForColliderArea(colliderArea);
+    OutTransform = pSkelMeshComp->GetSocketTransform(socketName, transformSpace);
+    return true;
 }

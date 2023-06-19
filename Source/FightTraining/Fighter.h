@@ -24,7 +24,7 @@ public:
 	AFighter();
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UCombatActorComponent> CombatComponent; // Initialized in BP Construction Script
+	TObjectPtr<UCombatActorComponent> CombatComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat");
 	AFighter* LockOnTarget;
@@ -33,7 +33,7 @@ public:
 	TObjectPtr<UDecalComponent> LockOnDecal;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat", meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UFighterPhysicalAnimComponent> PhysicalAnimComponent; // Initialized in BP Construction Script
+	TObjectPtr<UFighterPhysicalAnimComponent> PhysicalAnimComponent;
 
 protected:
 	// Called when the game starts or when spawned

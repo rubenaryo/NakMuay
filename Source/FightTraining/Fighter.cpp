@@ -8,6 +8,7 @@
 #include "GameFramework/WorldSettings.h"
 
 #include "EngineUtils.h"
+#include "Logging/LogMacros.h"
 
 AFighter::AFighter()
 	: Super()
@@ -18,6 +19,10 @@ AFighter::AFighter()
 
 	LockOnDecal = CreateDefaultSubobject<UDecalComponent>(FName(TEXT("LockOnDecal")));
 	LockOnDecal->SetupAttachment(RootComponent);
+
+	CombatComponent = CreateDefaultSubobject<UCombatActorComponent>(FName(TEXT("CombatComponent")));
+
+	PhysicalAnimComponent = CreateDefaultSubobject<UFighterPhysicalAnimComponent>(FName(TEXT("FighterPhysicalAnimComponent")));
 }
 
 // Called when the game starts or when spawned
@@ -36,13 +41,22 @@ void AFighter::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 
+	UE_LOG(LogTemp, Display, TEXT("Fighter:PostInitializeComponents(): Name{%s}, CC:{%p}, PAC:{%p}"), *GetActorNameOrLabel(), CombatComponent.Get(), PhysicalAnimComponent.Get());
+
+	if (!CombatComponent)
+        CombatComponent = CreateDefaultSubobject<UCombatActorComponent>(FName(TEXT("FallbackCombatComponent")));
+
+	if (!PhysicalAnimComponent)
+		PhysicalAnimComponent = CreateDefaultSubobject<UFighterPhysicalAnimComponent>(FName(TEXT("FallbackFighterPhysicalAnimComp")));
+
+
 	if (PhysicalAnimComponent)
 		PhysicalAnimComponent->SetSkeletalMeshComponent(GetMesh());
 
 	if (CombatComponent)
 	{	
 		CombatComponent->SetSkeletalMeshComponent(GetMesh());
-		CombatComponent->SetPhysicalAnimComponent(PhysicalAnimComponent);
+		CombatComponent->SetPhysicalAnimComponent(GetPhysicalAnimComponent());
 	}
 }
 

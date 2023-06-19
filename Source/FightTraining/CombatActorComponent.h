@@ -7,10 +7,11 @@
 #include "Components/ActorComponent.h"
 #include "CombatActorComponent.generated.h"
 
+class AFighter;
 class USkeletalMeshComponent;
 class UFighterPhysicalAnimComponent;
 
-/** 1:1 with ColliderSocketBindings **/
+/** 1:1 with ColliderSocketBindings >:3 **/
 UENUM(BlueprintType, meta = (ScriptName = "CombatColliderArea"))
 enum ECombatColliderArea
 {
@@ -42,7 +43,6 @@ inline FName CombatColliderSocketBindings[CCA_Count] =
     FName(TEXT("elbow_r_Socket"))	// CCA_RightElbow
 };
 
-const FName& GetSocketNameForColliderArea(ECombatColliderArea area);
 
 UENUM(BlueprintType, meta = (ScriptName = "MovementActionState"))
 enum EMovementActionState
@@ -62,6 +62,8 @@ public:
     // Sets default values for this component's properties
     UCombatActorComponent();
 
+    UFUNCTION(BlueprintCallable)
+    static const FName& GetSocketNameForColliderArea(ECombatColliderArea area);
 public:	
     // Called every frame
     virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
@@ -84,19 +86,22 @@ public:
     USkeletalMeshComponent* GetSkeletalMeshComponent() const { return SkeletalMeshComponent.Get(); }
 
     UFUNCTION(BlueprintCallable, Category = "Combat|Components|CombatComponent")
-    void SetColliderShape(UShapeComponent* colliderShape, int index);
-    
-    UFUNCTION(BlueprintCallable, Category = "Combat|Components|CombatComponent")
     UFighterPhysicalAnimComponent* GetPhysicalAnimComponent() const { return PhysicalAnimComp.Get(); }
     
     UFUNCTION(BlueprintCallable, Category = "Combat|Components|CombatComponent")
     void SetPhysicalAnimComponent(UFighterPhysicalAnimComponent* physicalAnimComp);
 
     UFUNCTION(BlueprintCallable, Category = "Combat|Components|CombatComponent")
-    UShapeComponent* GetCollider(ECombatColliderArea colliderArea) { return CombatColliderShapes[colliderArea].Get(); }
+    bool GetSocketTransformForColliderArea(FTransform& OutTransform, ECombatColliderArea colliderArea, ERelativeTransformSpace transformSpace = ERelativeTransformSpace::RTS_World);
 
-    UFUNCTION(BlueprintCallable, Category = "Combat|Components|CombatComponent")
-    void EnableCollider(ECombatColliderArea colliderArea, bool bEnable);
+    UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+    void HandleActiveAttackBegin(ECombatColliderArea colliderArea);
+
+    UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+    void HandleActiveAttackTick(ECombatColliderArea colliderArea, float TraceRadius);
+
+    UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+    void HandleActiveAttackEnd(ECombatColliderArea colliderArea);
 
 protected:
     // Called when the game starts
@@ -111,14 +116,32 @@ protected:
     UFUNCTION(BlueprintCallable)
     bool AbleToConsumeAction();
 
-    UFUNCTION()
-    void OnHitCallback(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+    UFUNCTION(BlueprintCallable, meta = (Tooltip = "Returns True if registered as a valid hit"))
+    bool OnGetHit(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult);
 
-    UFUNCTION()
-    void OnOverlapCallback(UPrimitiveComponent* OverlappedComp, AActor* Other, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+    UFUNCTION(BlueprintImplementableEvent, meta = (Tooltip = "Returns True if registered as a valid hit"))
+    bool OnGetHit_BlueprintImpl(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult);
 
-    UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-    void OnHit_BlueprintImpl(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+    UFUNCTION(BlueprintCallable)
+    void SetRegisteredAttackHitFlag(ECombatColliderArea cca, bool bEnable)
+    {
+        uint32_t flag = 1 << cca;
+        if (bEnable)
+        {
+            RegisteredAttackHitFlags |= flag;
+        }
+        else
+        {
+            RegisteredAttackHitFlags &= ~flag;
+        }
+    }
+
+    UFUNCTION(BlueprintCallable)
+    bool IsRegisteredAttackHit(ECombatColliderArea cca)
+    {
+        uint32_t flag = 1 << cca;
+        return (RegisteredAttackHitFlags & flag) != 0;
+    }
 
 protected:
     ECombatActionType CurrentCombatActionType;
@@ -129,5 +152,5 @@ protected:
 
     TWeakObjectPtr<UFighterPhysicalAnimComponent> PhysicalAnimComp;
 
-    TWeakObjectPtr<UShapeComponent> CombatColliderShapes[CCA_Count];
+    uint32_t RegisteredAttackHitFlags; // Records ECombatColliderArea as flags for which attack is active or not.
 };
