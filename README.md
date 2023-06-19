@@ -1,3 +1,3 @@
-# FightTraining
+# Nak Muay
 
-Developed with Unreal Engine 5
+A Kickboxing/Muay Thai themed combat sim developed with Unreal Engine 5
