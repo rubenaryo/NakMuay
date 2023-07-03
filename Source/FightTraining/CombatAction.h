@@ -10,11 +10,20 @@
 UENUM(BlueprintType, meta = (ScriptName = "CombatActionType"))
 enum class ECombatActionType : uint8
 {
-	None			UMETA(DisplayName="None"),
-	Lead_Straight	UMETA(DisplayName="Lead Straight"),
-	Rear_Straight	UMETA(DisplayName="Rear Straight"),
-	Rear_Kick		UMETA(DisplayName="Rear Kick"),
-	Combo_Test		UMETA(DisplayName="DEBUG: Combo Test"),
+    None			UMETA(DisplayName = "None"),
+    Lead_Straight	UMETA(DisplayName = "Lead Straight"),
+    Rear_Straight	UMETA(DisplayName = "Rear Straight"),
+    Lead_Kick		UMETA(DisplayName = "Lead Kick"),
+    Rear_Kick		UMETA(DisplayName = "Rear Kick"),
+    Lead_LowKick	UMETA(DisplayName = "Lead Low Kick"),
+    Rear_LowKick	UMETA(DisplayName = "Rear Low Kick"),
+    Lead_Teep		UMETA(DisplayName = "Lead Teep"),
+    Rear_Teep		UMETA(DisplayName = "Rear Teep"),
+    Lead_Hook		UMETA(DisplayName = "Lead Hook"),
+    Rear_Hook		UMETA(DisplayName = "Rear Hook"),
+	Lead_Uppercut	UMETA(DisplayName = "Lead Uppercut"),
+    Rear_Uppercut	UMETA(DisplayName = "Rear Uppercut"),
+    Combo_Test		UMETA(DisplayName = "DEBUG: Combo Test"),
 	Count
 };
 

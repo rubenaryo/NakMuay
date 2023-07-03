@@ -7,7 +7,16 @@ static const FString CA_TYPE_NAMES[] =
 	TEXT("None"),
 	TEXT("Lead Straight"),
 	TEXT("Rear Straight"),
+	TEXT("Lead Kick"),
 	TEXT("Rear Kick"),
+    TEXT("Lead Low Kick"),
+    TEXT("Rear Low Kick"),
+    TEXT("Lead Teep"),
+    TEXT("Rear Teep"),
+	TEXT("Lead Hook"),
+    TEXT("Rear Hook"),
+    TEXT("Lead Uppercut"),
+    TEXT("Rear Uppercut"),
 	TEXT("Combo_Test")
 };
 
