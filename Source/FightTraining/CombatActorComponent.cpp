@@ -45,13 +45,7 @@ bool UCombatActorComponent::AbleToConsumeAction()
 
 bool UCombatActorComponent::OnGetHit(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult, ECombatActionType AttackType, float PhysicsHitStrength)
 {
-    UFighterPhysicalAnimComponent* pPhysicalAnimComp = GetPhysicalAnimComponent();
-    if (!pPhysicalAnimComp)
-        return false;
-
-    OnGetHit_BlueprintImpl(HitComp, AttackingFighter, InHitResult, AttackType, PhysicsHitStrength);
-
-    return pPhysicalAnimComp->OnGetHit(HitComp, AttackingFighter, InHitResult, AttackType, PhysicsHitStrength);
+    return OnGetHit_Implementation(HitComp, AttackingFighter, InHitResult, AttackType, PhysicsHitStrength);
 }
 
 void UCombatActorComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)

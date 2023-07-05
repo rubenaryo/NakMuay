@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "CombatAction.h"
+#include "HitReactionMap.h"
 #include "Components/ActorComponent.h"
 #include "CombatActorComponent.generated.h"
 
@@ -120,7 +121,7 @@ protected:
     bool OnGetHit(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult, ECombatActionType AttackType, float PhysicsHitStrength);
 
     UFUNCTION(BlueprintImplementableEvent, meta = (Tooltip = "Returns True if registered as a valid hit"))
-    bool OnGetHit_BlueprintImpl(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult, ECombatActionType AttackType, float PhysicsHitStrength);
+    bool OnGetHit_Implementation(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult, ECombatActionType AttackType, float PhysicsHitStrength);
 
     UFUNCTION(BlueprintCallable)
     void SetRegisteredAttackHitFlag(ECombatColliderArea cca, bool bEnable)
@@ -151,6 +152,9 @@ protected:
     TWeakObjectPtr<USkeletalMeshComponent> SkeletalMeshComponent;
 
     TWeakObjectPtr<UFighterPhysicalAnimComponent> PhysicalAnimComp;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    const TObjectPtr<UHitReactionMap> HitReactionMapAsset;
 
     uint32_t RegisteredAttackHitFlags; // Records ECombatColliderArea as flags for which attack is active or not.
 };
