@@ -26,9 +26,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UCombatActorComponent> CombatComponent;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat");
-	AFighter* LockOnTarget;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UDecalComponent> LockOnDecal;
 
@@ -46,6 +43,9 @@ protected:
 	bool UpdateLockOnTarget();
 
 	AFighter* FindNearestFighter() const;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat");
+	AFighter* LockOnTarget;
 
 public:	
 	// Called every frame
