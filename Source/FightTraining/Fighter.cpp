@@ -41,20 +41,18 @@ void AFighter::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 
-	UE_LOG(LogTemp, Display, TEXT("Fighter:PostInitializeComponents(): Name{%s}, CC:{%p}, PAC:{%p}"), *GetActorNameOrLabel(), CombatComponent.Get(), PhysicalAnimComponent.Get());
-
 	if (!CombatComponent)
         CombatComponent = CreateDefaultSubobject<UCombatActorComponent>(FName(TEXT("FallbackCombatComponent")));
 
 	if (!PhysicalAnimComponent)
 		PhysicalAnimComponent = CreateDefaultSubobject<UFighterPhysicalAnimComponent>(FName(TEXT("FallbackFighterPhysicalAnimComp")));
 
-
 	if (PhysicalAnimComponent)
 		PhysicalAnimComponent->SetSkeletalMeshComponent(GetMesh());
 
 	if (CombatComponent)
 	{	
+		CombatComponent->SetMovementComponent(GetCharacterMovement());
 		CombatComponent->SetSkeletalMeshComponent(GetMesh());
 		CombatComponent->SetPhysicalAnimComponent(GetPhysicalAnimComponent());
 	}

@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Fil out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -9,6 +9,7 @@
 #include "CombatActorComponent.generated.h"
 
 class AFighter;
+class UCharacterMovementComponent;
 class USkeletalMeshComponent;
 class UFighterPhysicalAnimComponent;
 
@@ -54,6 +55,38 @@ enum EMovementActionState
     MA_COUNT,
 };
 
+USTRUCT(BlueprintType)
+struct FHitParameters
+{
+    GENERATED_BODY()
+
+    FHitParameters() {}
+    FHitParameters(const FVector& localPushImpulse,
+        UPrimitiveComponent* hitComp,
+        AFighter* attackingFighter,
+        FHitResult hitResult,
+        float physicsHitStrength,
+        ECombatActionType attackType);
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+    FVector LocalPushImpulse = FVector::ZeroVector;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+    UPrimitiveComponent* HitComp = nullptr;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+    AFighter* AttackingFighter = nullptr;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+    FHitResult HitResult;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+    float PhysicsHitStrength = 0.0f;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+    ECombatActionType AttackType = ECombatActionType::None;
+};
+
 UCLASS(Blueprintable, ClassGroup = Combat, meta=(BlueprintSpawnableComponent))
 class NAKMUAY_API UCombatActorComponent : public UActorComponent
 {
@@ -66,7 +99,6 @@ public:
     UFUNCTION(BlueprintCallable)
     static const FName& GetSocketNameForColliderArea(ECombatColliderArea area);
 public:	
-    // Called every frame
     virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
     UFUNCTION(BlueprintCallable, Category = "Combat|Components|CombatComponent")
@@ -80,17 +112,25 @@ public:
 
     void QueueCombatAction(ECombatActionType actionIn);
 
+    // Component Reference Setters/Getters
+    UFUNCTION(BlueprintCallable, Category = "Combat|Components|CombatComponent")
+    void SetMovementComponent(UCharacterMovementComponent* moveComp);
+    
     UFUNCTION(BlueprintCallable, Category = "Combat|Components|CombatComponent")
     void SetSkeletalMeshComponent(USkeletalMeshComponent* skMeshComp);
+    
+    UFUNCTION(BlueprintCallable, Category = "Combat|Components|CombatComponent")
+    void SetPhysicalAnimComponent(UFighterPhysicalAnimComponent* physicalAnimComp);
+
+    UFUNCTION(BlueprintCallable, Category = "Combat|Components|CombatComponent")
+    UCharacterMovementComponent* GetMovementComponent() const { return MovementComponent.Get(); }
 
     UFUNCTION(BlueprintCallable, Category = "Combat|Components|CombatComponent")
     USkeletalMeshComponent* GetSkeletalMeshComponent() const { return SkeletalMeshComponent.Get(); }
 
     UFUNCTION(BlueprintCallable, Category = "Combat|Components|CombatComponent")
     UFighterPhysicalAnimComponent* GetPhysicalAnimComponent() const { return PhysicalAnimComp.Get(); }
-    
-    UFUNCTION(BlueprintCallable, Category = "Combat|Components|CombatComponent")
-    void SetPhysicalAnimComponent(UFighterPhysicalAnimComponent* physicalAnimComp);
+
 
     UFUNCTION(BlueprintCallable, Category = "Combat|Components|CombatComponent")
     bool GetSocketTransformForColliderArea(FTransform& OutTransform, ECombatColliderArea colliderArea, ERelativeTransformSpace transformSpace = ERelativeTransformSpace::RTS_World);
@@ -99,7 +139,7 @@ public:
     void HandleActiveAttackBegin(ECombatColliderArea colliderArea, float PhysicsHitStrength);
 
     UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
-    void HandleActiveAttackTick(ECombatColliderArea colliderArea, float TraceRadius, float PhysicsHitStrength);
+    void HandleActiveAttackTick(ECombatColliderArea colliderArea, float TraceRadius, float PhysicsHitStrength, const FVector& LocalPushImpulse);
 
     UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
     void HandleActiveAttackEnd(ECombatColliderArea colliderArea, float PhysicsHitStrength);
@@ -118,10 +158,10 @@ protected:
     bool AbleToConsumeAction();
 
     UFUNCTION(BlueprintCallable, meta = (Tooltip = "Returns True if registered as a valid hit"))
-    bool OnGetHit(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult, ECombatActionType AttackType, float PhysicsHitStrength);
+    bool OnGetHit(const FHitParameters& hitParameters);
 
     UFUNCTION(BlueprintImplementableEvent, meta = (Tooltip = "Returns True if registered as a valid hit"))
-    bool OnGetHit_Implementation(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult, ECombatActionType AttackType, float PhysicsHitStrength);
+    bool OnGetHit_Implementation(const FHitParameters& hitParameters);
 
     UFUNCTION(BlueprintCallable)
     void SetRegisteredAttackHitFlag(ECombatColliderArea cca, bool bEnable)
@@ -149,6 +189,8 @@ protected:
     
     TQueue<ECombatActionType> CombatActionQueue;
     
+    TWeakObjectPtr<UCharacterMovementComponent> MovementComponent;
+
     TWeakObjectPtr<USkeletalMeshComponent> SkeletalMeshComponent;
 
     TWeakObjectPtr<UFighterPhysicalAnimComponent> PhysicalAnimComp;

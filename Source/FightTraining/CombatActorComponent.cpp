@@ -1,8 +1,7 @@
 #include "CombatActorComponent.h"
-
-#include "Components/ShapeComponent.h"
 #include "FighterPhysicalAnimComponent.h"
-#include "Fighter.h"
+
+#include "GameFramework/CharacterMovementComponent.h"
 
 const FName& UCombatActorComponent::GetSocketNameForColliderArea(ECombatColliderArea area)
 {
@@ -43,9 +42,9 @@ bool UCombatActorComponent::AbleToConsumeAction()
     return bBufferedActions && !bActionInProgress && !bMoving;
 }
 
-bool UCombatActorComponent::OnGetHit(UPrimitiveComponent* HitComp, AFighter* AttackingFighter, const FHitResult& InHitResult, ECombatActionType AttackType, float PhysicsHitStrength)
+bool UCombatActorComponent::OnGetHit(const FHitParameters& hitParameters)
 {
-    return OnGetHit_Implementation(HitComp, AttackingFighter, InHitResult, AttackType, PhysicsHitStrength);
+    return OnGetHit_Implementation(hitParameters);
 }
 
 void UCombatActorComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -75,6 +74,11 @@ void UCombatActorComponent::QueueCombatAction(ECombatActionType actionIn)
     CombatActionQueue.Enqueue(actionIn);
 }
 
+void UCombatActorComponent::SetMovementComponent(UCharacterMovementComponent* moveComp)
+{
+    MovementComponent = moveComp;
+}
+
 void UCombatActorComponent::SetSkeletalMeshComponent(USkeletalMeshComponent* skMeshComp)
 {
     SkeletalMeshComponent = skMeshComp;
@@ -96,4 +100,17 @@ bool UCombatActorComponent::GetSocketTransformForColliderArea(FTransform& OutTra
     const FName& socketName = GetSocketNameForColliderArea(colliderArea);
     OutTransform = pSkelMeshComp->GetSocketTransform(socketName, transformSpace);
     return true;
+}
+
+//////////////////////////////
+// FHitParameters
+
+FHitParameters::FHitParameters(const FVector& localPushImpulse, UPrimitiveComponent* hitComp, AFighter* attackingFighter, FHitResult hitResult, float physicsHitStrength, ECombatActionType attackType)
+    : LocalPushImpulse(localPushImpulse)
+    , HitComp(hitComp)
+    , AttackingFighter(attackingFighter)
+    , HitResult(hitResult)
+    , PhysicsHitStrength(physicsHitStrength)
+    , AttackType(attackType)
+{
 }
