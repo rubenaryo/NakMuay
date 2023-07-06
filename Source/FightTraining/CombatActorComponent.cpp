@@ -1,13 +1,8 @@
 #include "CombatActorComponent.h"
+#include "CombatCommon.h"
 #include "FighterPhysicalAnimComponent.h"
 
 #include "GameFramework/CharacterMovementComponent.h"
-
-const FName& UCombatActorComponent::GetSocketNameForColliderArea(ECombatColliderArea area)
-{
-    check(area < CCA_Count);
-    return CombatColliderSocketBindings[area];
-}
 
 /////////////////////////
 // Combat Actor Component
@@ -97,20 +92,7 @@ bool UCombatActorComponent::GetSocketTransformForColliderArea(FTransform& OutTra
         return false;
     }
 
-    const FName& socketName = GetSocketNameForColliderArea(colliderArea);
+    const FName& socketName = UCombatStatics::GetSocketNameForColliderArea(colliderArea);
     OutTransform = pSkelMeshComp->GetSocketTransform(socketName, transformSpace);
     return true;
-}
-
-//////////////////////////////
-// FHitParameters
-
-FHitParameters::FHitParameters(const FVector& localPushImpulse, UPrimitiveComponent* hitComp, AFighter* attackingFighter, FHitResult hitResult, float physicsHitStrength, ECombatActionType attackType)
-    : LocalPushImpulse(localPushImpulse)
-    , HitComp(hitComp)
-    , AttackingFighter(attackingFighter)
-    , HitResult(hitResult)
-    , PhysicsHitStrength(physicsHitStrength)
-    , AttackType(attackType)
-{
 }
