@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CombatCommon.h"
 #include "Engine/DataAsset.h"
 #include "HitReactionMap.generated.h"
 
@@ -29,12 +30,25 @@ UCLASS(Blueprintable, ClassGroup = Combat)
 class UHitReactionMap : public UDataAsset
 {
     GENERATED_BODY()
+    UHitReactionMap();
+
+    virtual void PreSave(FObjectPreSaveContext ObjectSaveContext) override;
 
 public:
     UFUNCTION(BlueprintCallable)
-    const UAnimMontage* GetMontageFromBoneNameAndImpulse(const FName& boneName, const FVector& Impulse);
+    const UAnimMontage* GetMontageFromHitSectionAndImpulse(EHitSection hitSection, const FVector& Impulse);
+
+    UFUNCTION(BlueprintCallable)
+    EHitSection GetHitSectionFromBoneName(const FName& boneName);
 
 private:
-    UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-    TMap<FName, FHitReactionReferenceArray> BoneToHitReactionMap;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (DisplayName = "Hit Section to Bone Map", AllowPrivateAccess = "true"))
+    TMap<TEnumAsByte<EHitSection>, FBoneNameArray> HitSectionToBoneMap;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (DisplayName = "Bone to Hit Section Map (generated)", AllowPrivateAccess = "true"))
+    TMap<FName, TEnumAsByte<EHitSection>> BoneToHitSectionMap;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (DisplayName = "Hit Section to Reaction Map", AllowPrivateAccess = "true"))
+    TMap<TEnumAsByte<EHitSection>, FHitReactionReferenceArray> HitSectionToReactionMap;
+
 };

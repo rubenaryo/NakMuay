@@ -110,6 +110,19 @@ enum EMovementActionState
     MA_COUNT,
 };
 
+/// <summary>
+/// Generic struct for an array of bones
+/// </summary>
+USTRUCT(BlueprintType)
+struct FBoneNameArray
+{
+    GENERATED_BODY()
+    
+    UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    TArray<FName> BoneNames;
+};
+
+
 UCLASS()
 class NAKMUAY_API UCombatStatics : public UBlueprintFunctionLibrary
 {
