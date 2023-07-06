@@ -52,7 +52,7 @@ inline FName CombatColliderSocketBindings[CCA_Count] =
 /// <summary>
 /// Can map to several bones. A gameplay abstraction of where a hit can occur.
 /// </summary>
-UENUM(BlueprintType, meta = (ScriptName = "Hit Section"))
+UENUM(BlueprintType, meta = (ScriptName = "HitSection"))
 enum EHitSection
 {
     HS_None,
