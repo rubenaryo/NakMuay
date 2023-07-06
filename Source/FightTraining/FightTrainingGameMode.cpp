@@ -10,6 +10,9 @@ void AFightTrainingGameMode::InitGame(const FString& MapName, const FString& Opt
 	// Build the combo maps
     for (const UComboSpec* pComboSpec : AvailableCombos)
     {
+        if (!pComboSpec || pComboSpec->CombatActionSequence.IsEmpty())
+            continue;
+
     	ECombatActionType lastActionInCombo = pComboSpec->CombatActionSequence.Last();
     	ECombatActionType firstActionInCombo = pComboSpec->CombatActionSequence[0];
 
