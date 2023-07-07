@@ -23,6 +23,10 @@ enum class ECombatActionType : uint8
     Rear_Hook		UMETA(DisplayName = "Rear Hook"),
 	Lead_Uppercut	UMETA(DisplayName = "Lead Uppercut"),
     Rear_Uppercut	UMETA(DisplayName = "Rear Uppercut"),
+    Lead_Knee		UMETA(DisplayName = "Lead Knee"),
+    Rear_Knee		UMETA(DisplayName = "Rear Knee"),
+    Lead_Elbow		UMETA(DisplayName = "Lead Elbow"),
+    Rear_Elbow		UMETA(DisplayName = "Rear Elbow"),
     Combo_Test		UMETA(DisplayName = "DEBUG: Combo Test"),
 	Count
 };

@@ -17,6 +17,10 @@ static const FString CA_TYPE_NAMES[] =
     TEXT("Rear Hook"),
     TEXT("Lead Uppercut"),
     TEXT("Rear Uppercut"),
+    TEXT("Lead Knee"),
+    TEXT("Rear Knee"),
+    TEXT("Lead Elbow"),
+    TEXT("Rear Elbow"),
 	TEXT("Combo_Test")
 };
 
