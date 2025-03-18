@@ -59,4 +59,7 @@ public:
 
     UFUNCTION(BlueprintGetter, Category = "Combat")
     UFighterPhysicalAnimComponent* GetPhysicalAnimComponent() const;
+
+	UFUNCTION(BlueprintGetter, Category = "Combat")
+	AFighter* GetLockOnTarget() const { return LockOnTarget;}
 };
